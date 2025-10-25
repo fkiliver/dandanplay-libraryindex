@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.WebSiteName - 遥控器</title>
+    <link href="css/bootstrap-5.3.3.min.css" rel="stylesheet">
+    <link href="css/font-awesome-all-6.5.2.min.css" rel="stylesheet">
+    @Partial['style.sshtml'];
+    <style>
+        .remote-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .player-info {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .player-status {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .status-playing {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-paused {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-stopped {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
+        .current-media {
+            margin-top: 15px;
+        }
+
+        .media-poster {
+            max-width: 200px;
+            border-radius: 8px;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .media-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .media-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-fill {
+            background: #1976d2;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .control-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .control-section {
+            margin-bottom: 30px;
+        }
+
+        .control-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .playback-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn-large {
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+        }
+
+        .control-btn-small {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+        }
+
+        .btn-primary-control {
+            background: #1976d2;
+            color: white;
+        }
+
+        .btn-secondary-control {
+            background: #757575;
+            color: white;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .volume-slider {
+            flex: 1;
+        }
+
+        .volume-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .seek-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .track-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .track-select {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .track-select label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .device-info {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .device-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .device-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .device-info-item i {
+            width: 20px;
+            color: var(--text-secondary);
+        }
+
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .connection-online {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .connection-offline {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .control-btn-large {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+
+            .control-btn-small {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .track-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-tv"></i> @Model.WebSiteName</h1>
+            <a href="index.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </header>
+
+        <main class="remote-container">
+            <section>
+                <h2 class="page-title">遥控器</h2>
+
+                <!-- 设备连接信息 -->
+                <div class="device-info">
+                    <div class="connection-status connection-online" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span>已连接</span>
+                    </div>
+                    <div class="device-info-grid">
+                        <div class="device-info-item">
+                            <i class="fas fa-desktop"></i>
+                            <span id="deviceName">台式电脑 (DESKTOP-PC)</span>
+                        </div>
+                        <div class="device-info-item">
+                            <i class="fas fa-video"></i>
+                            <span id="playerVersion">DanDanPlay v12.5.0</span>
+                        </div>
+                        <div class="device-info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="lastUpdate">刚刚更新</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 当前播放信息 -->
+                <div class="player-info">
+                    <span class="player-status status-playing" id="playerStatus">
+                        <i class="fas fa-play"></i> 播放中
+                    </span>
+
+                    <div class="current-media">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 280'%3E%3Crect fill='%23e0e0e0' width='200' height='280'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-size='24'%3E海报%3C/text%3E%3C/svg%3E" 
+                             class="media-poster" id="mediaPoster" alt="当前播放">
+                        <div class="media-title" id="mediaTitle">葬送的芙莉莲</div>
+                        <div class="media-subtitle" id="mediaSubtitle">第28话 - 一级魔法使选拔试验结束</div>
+                    </div>
+
+                    <!-- 进度条 -->
+                    <div class="progress-section">
+                        <div class="time-display">
+                            <span id="currentTime">12:35</span>
+                            <span id="duration">24:18</span>
+                        </div>
+                        <div class="progress-bar-container" id="progressBar">
+                            <div class="progress-bar-fill" id="progressFill" style="width: 52%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 播放控制 -->
+                <div class="control-panel">
+                    <div class="control-section">
+                        <div class="control-section-title">
+                            <i class="fas fa-play-circle"></i>
+                            <span>播放控制</span>
+                        </div>
+                        <div class="playback-controls">
+                            <button class="control-btn control-btn-small btn-secondary-control" id="previousBtn" title="上一集">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <button class="control-btn btn-secondary-control" id="rewindBtn" title="后退30秒">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                            <button class="control-btn control-btn-large btn-primary-control" id="playPauseBtn" title="播放/暂停">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                            <button class="control-btn btn-secondary-control" id="forwardBtn" title="前进30秒">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button class="control-btn control-btn-small btn-secondary-control" id="nextBtn" title="下一集">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-title">
+                            <i class="fas fa-forward"></i>
+                            <span>快速定位</span>
+                        </div>
+                        <div class="seek-controls">
+                            <button class="btn btn-outline-secondary" onclick="seekTo(5)">
+                                <i class="fas fa-fast-backward"></i> -5秒
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="seekTo(10)">
+                                <i class="fas fa-backward"></i> -10秒
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="seekTo(30)">
+                                <i class="fas fa-step-backward"></i> -30秒
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="seekTo(-30)">
+                                <i class="fas fa-step-forward"></i> +30秒
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="seekTo(-10)">
+                                <i class="fas fa-forward"></i> +10秒
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="seekTo(-5)">
+                                <i class="fas fa-fast-forward"></i> +5秒
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-title">
+                            <i class="fas fa-volume-up"></i>
+                            <span>音量</span>
+                        </div>
+                        <div class="volume-control">
+                            <button class="btn btn-outline-secondary" id="muteBtn">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <input type="range" class="form-range volume-slider" id="volumeSlider" 
+                                   min="0" max="100" value="65">
+                            <span class="volume-value" id="volumeValue">65%</span>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-title">
+                            <i class="fas fa-cog"></i>
+                            <span>轨道选择</span>
+                        </div>
+                        <div class="track-controls">
+                            <div class="track-select">
+                                <label for="audioTrack">
+                                    <i class="fas fa-headphones"></i> 音频轨道
+                                </label>
+                                <select class="form-select" id="audioTrack">
+                                    <option value="0" selected>音频轨道 1 (日语)</option>
+                                    <option value="1">音频轨道 2 (日语评论)</option>
+                                </select>
+                            </div>
+                            <div class="track-select">
+                                <label for="subtitleTrack">
+                                    <i class="fas fa-closed-captioning"></i> 字幕轨道
+                                </label>
+                                <select class="form-select" id="subtitleTrack">
+                                    <option value="-1">无字幕</option>
+                                    <option value="0" selected>简体中文</option>
+                                    <option value="1">繁体中文</option>
+                                    <option value="2">日文</option>
+                                </select>
+                            </div>
+                            <div class="track-select">
+                                <label for="playbackSpeed">
+                                    <i class="fas fa-tachometer-alt"></i> 播放速度
+                                </label>
+                                <select class="form-select" id="playbackSpeed">
+                                    <option value="0.5">0.5x</option>
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x (正常)</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-title">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span>其他操作</span>
+                        </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-outline-secondary" id="fullscreenBtn">
+                                <i class="fas fa-expand"></i> 全屏
+                            </button>
+                            <button class="btn btn-outline-secondary" id="screenshotBtn">
+                                <i class="fas fa-camera"></i> 截图
+                            </button>
+                            <button class="btn btn-outline-secondary" id="danmakuBtn">
+                                <i class="fas fa-comments"></i> 弹幕开关
+                            </button>
+                            <button class="btn btn-outline-secondary" id="stopBtn">
+                                <i class="fas fa-stop"></i> 停止播放
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>
+                @IfNot.IsAnonymous
+                当前用户: @Model.UserName
+                <a href="/web1/logout" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </a> |
+                @EndIf
+                @Model.ServerInfo
+            </p>
+        </footer>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.bundle-5.3.3.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var isPlaying = true;
+            var isMuted = false;
+            var currentVolume = 65;
+            var currentTime = 755; // 秒
+            var duration = 1458; // 秒
+
+            // 格式化时间
+            function formatTime(seconds) {
+                var mins = Math.floor(seconds / 60);
+                var secs = seconds % 60;
+                return mins + ':' + (secs < 10 ? '0' : '') + secs;
+            }
+
+            // 更新进度显示
+            function updateProgress() {
+                var percentage = (currentTime / duration) * 100;
+                $('#progressFill').css('width', percentage + '%');
+                $('#currentTime').text(formatTime(currentTime));
+                $('#duration').text(formatTime(duration));
+            }
+
+            // 播放/暂停
+            $('#playPauseBtn').click(function () {
+                isPlaying = !isPlaying;
+                if (isPlaying) {
+                    $(this).html('<i class="fas fa-pause"></i>');
+                    $('#playerStatus').removeClass('status-paused').addClass('status-playing')
+                        .html('<i class="fas fa-play"></i> 播放中');
+                    alert('发送播放命令（模拟）');
+                } else {
+                    $(this).html('<i class="fas fa-play"></i>');
+                    $('#playerStatus').removeClass('status-playing').addClass('status-paused')
+                        .html('<i class="fas fa-pause"></i> 已暂停');
+                    alert('发送暂停命令（模拟）');
+                }
+            });
+
+            // 上一集/下一集
+            $('#previousBtn').click(function () {
+                alert('切换到上一集（模拟）');
+            });
+
+            $('#nextBtn').click(function () {
+                alert('切换到下一集（模拟）');
+            });
+
+            // 快退/快进
+            $('#rewindBtn').click(function () {
+                currentTime = Math.max(0, currentTime - 30);
+                updateProgress();
+                alert('后退30秒（模拟）');
+            });
+
+            $('#forwardBtn').click(function () {
+                currentTime = Math.min(duration, currentTime + 30);
+                updateProgress();
+                alert('前进30秒（模拟）');
+            });
+
+            // 快速定位
+            window.seekTo = function (seconds) {
+                if (seconds > 0) {
+                    currentTime = Math.max(0, currentTime - seconds);
+                } else {
+                    currentTime = Math.min(duration, currentTime - seconds);
+                }
+                updateProgress();
+                alert('跳转 ' + seconds + ' 秒（模拟）');
+            };
+
+            // 进度条点击
+            $('#progressBar').click(function (e) {
+                var percent = e.offsetX / $(this).width();
+                currentTime = Math.floor(duration * percent);
+                updateProgress();
+                alert('跳转到 ' + formatTime(currentTime) + '（模拟）');
+            });
+
+            // 音量控制
+            $('#volumeSlider').on('input', function () {
+                currentVolume = $(this).val();
+                $('#volumeValue').text(currentVolume + '%');
+                
+                // 更新静音按钮图标
+                var icon = $('#muteBtn i');
+                if (currentVolume == 0) {
+                    icon.removeClass().addClass('fas fa-volume-mute');
+                } else if (currentVolume < 50) {
+                    icon.removeClass().addClass('fas fa-volume-down');
+                } else {
+                    icon.removeClass().addClass('fas fa-volume-up');
+                }
+            });
+
+            $('#volumeSlider').on('change', function () {
+                alert('设置音量为 ' + currentVolume + '%（模拟）');
+            });
+
+            // 静音
+            $('#muteBtn').click(function () {
+                isMuted = !isMuted;
+                var icon = $(this).find('i');
+                
+                if (isMuted) {
+                    icon.removeClass().addClass('fas fa-volume-mute');
+                    alert('静音（模拟）');
+                } else {
+                    if (currentVolume == 0) {
+                        icon.removeClass().addClass('fas fa-volume-mute');
+                    } else if (currentVolume < 50) {
+                        icon.removeClass().addClass('fas fa-volume-down');
+                    } else {
+                        icon.removeClass().addClass('fas fa-volume-up');
+                    }
+                    alert('取消静音（模拟）');
+                }
+            });
+
+            // 轨道选择
+            $('#audioTrack').change(function () {
+                alert('切换音频轨道到: ' + $(this).find('option:selected').text() + '（模拟）');
+            });
+
+            $('#subtitleTrack').change(function () {
+                alert('切换字幕轨道到: ' + $(this).find('option:selected').text() + '（模拟）');
+            });
+
+            $('#playbackSpeed').change(function () {
+                alert('设置播放速度为: ' + $(this).val() + 'x（模拟）');
+            });
+
+            // 其他操作
+            $('#fullscreenBtn').click(function () {
+                alert('切换全屏（模拟）');
+            });
+
+            $('#screenshotBtn').click(function () {
+                alert('截图已保存（模拟）');
+            });
+
+            $('#danmakuBtn').click(function () {
+                alert('切换弹幕显示（模拟）');
+            });
+
+            $('#stopBtn').click(function () {
+                isPlaying = false;
+                $('#playPauseBtn').html('<i class="fas fa-play"></i>');
+                $('#playerStatus').removeClass('status-playing status-paused').addClass('status-stopped')
+                    .html('<i class="fas fa-stop"></i> 已停止');
+                currentTime = 0;
+                updateProgress();
+                alert('停止播放（模拟）');
+            });
+
+            // 初始化显示
+            updateProgress();
+
+            // 模拟播放进度更新
+            setInterval(function () {
+                if (isPlaying && currentTime < duration) {
+                    currentTime++;
+                    updateProgress();
+                }
+            }, 1000);
+
+            // 模拟连接状态检查
+            var isConnected = true;
+            setInterval(function () {
+                // 这里应该实际检查连接状态
+                // 现在只是模拟
+                var $status = $('#connectionStatus');
+                if (isConnected) {
+                    $status.removeClass('connection-offline').addClass('connection-online')
+                        .html('<span class="status-dot"></span><span>已连接</span>');
+                } else {
+                    $status.removeClass('connection-online').addClass('connection-offline')
+                        .html('<span class="status-dot"></span><span>连接断开</span>');
+                }
+            }, 5000);
+        });
+    </script>
+
+</body>
+
+</html>
