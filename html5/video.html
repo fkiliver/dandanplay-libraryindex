@@ -7,17 +7,52 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@Model.AnimeTitle - @Model.EpisodeTitle - @Model.WebSiteName</title>
     <link rel="shortcut icon" href="css/icon.png" type="image/x-icon">
-    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+    <link href="css/bootstrap-5.3.3.min.css" rel="stylesheet">
     <link href="css/font-awesome-all-6.5.2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/DPlayer.min.css">
     <script src="js/DPlayer-1.27.0.min.js"></script>
     <script src="js/subtitles-octopus.js"></script>
     <style type="text/css">
+        body {
+            @If.UseCustomBackground
+            background: url(@Model.CustomBackgroundUrl);
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            @EndIf
+            @IfNot.UseCustomBackground
+            background: linear-gradient(to bottom, #FFD194, #70E1F5);
+            @EndIf
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            @If.UseCustomBackground
+            background: rgba(255, 255, 255, 0.95);
+            @EndIf
+            @IfNot.UseCustomBackground
+            background: rgba(255, 255, 255, 0.9);
+            @EndIf
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .breadcrumb {
+            background: transparent;
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
+        }
+
         .dplayer {
             width: 100%;
-            top: 3%;
-            height: 70%;
-            margin-bottom: 40px;
+            height: 70vh;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .dplayer-danmaku {
@@ -39,14 +74,9 @@
         }
 
         /* mobile */
-
-        /* 控制条 mask 高度调小，避免影响双击切换暂停播放 */
-
         .dplayer-mobile .dplayer-controller-mask {
             height: 60px;
         }
-
-        /* 弹幕字体调小 */
 
         .dplayer-mobile .dplayer-danmaku {
             font-size: 20px;
@@ -56,6 +86,152 @@
             font-size: 20px;
         }
 
+        /* Compact card style */
+        .compact-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .compact-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .compact-card-header:hover {
+            background-color: #f8f9fa;
+        }
+
+        .current-item-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .current-item-info i {
+            font-size: 1.25rem;
+            color: #0d6efd;
+        }
+
+        .current-item-text {
+            flex: 1;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .expand-icon {
+            color: #6c757d;
+            transition: transform 0.2s;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 1.5rem;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+
+        .modal-body {
+            padding: 1rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .list-group-item {
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+            border-left-color: #0d6efd;
+        }
+
+        .list-group-item.active {
+            border-left-color: #0d6efd;
+            background-color: #e7f1ff;
+            color: #0d6efd;
+        }
+
+        .list-group-item small {
+            display: block;
+            color: #6c757d;
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(248, 249, 250, 0.9);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .dplayer {
+                height: 50vh;
+            }
+
+            .current-item-text {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -66,77 +242,112 @@
             <li class="breadcrumb-item">
                 @Model.AnimeTitle
             </li>
-            <li class="breadcrumb-item" aria-current="page">
+            <li class="breadcrumb-item active" aria-current="page">
                 @Model.EpisodeTitle
             </li>
         </ol>
     </nav>
 
     <div id="dplayer"></div>
-    <!-- <div id="ass-container"></div> -->
 
     @If.HasSubtitle
-    <div class="card">
-        <div class="card-header">
-            字幕列表
-        </div>
-        <div class="card-body">
-            <div class="list-group list-group-flush">
-                @Each.SubtitleFiles
-                <a href="video.html?id=@Model.Id&subtitle=@Current.SafeName" class="list-group-item list-group-item-action
-                @If.IsCurrent
-                    active
-                @EndIf
-">
+    <div class="compact-card">
+        <div class="compact-card-header" onclick="openSubtitleModal()">
+            <div class="current-item-info">
+                <i class="fas fa-closed-captioning"></i>
+                <span class="current-item-text">
+                    字幕: 
+                    @Each.SubtitleFiles
+                    @If.IsCurrent
                     @Current.Name
-                </a>
-                @EndEach
+                    @EndIf
+                    @EndEach
+                </span>
+            </div>
+            <i class="fas fa-chevron-right expand-icon"></i>
+        </div>
+    </div>
+    @EndIf
+
+    <div class="compact-card">
+        <div class="compact-card-header" onclick="openEpisodeModal()">
+            <div class="current-item-info">
+                <i class="fas fa-list"></i>
+                <span class="current-item-text">
+                    当前剧集: @Model.EpisodeTitle
+                </span>
+            </div>
+            <i class="fas fa-chevron-right expand-icon"></i>
+        </div>
+    </div>
+
+    <!-- Subtitle Modal -->
+    @If.HasSubtitle
+    <div id="subtitleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-closed-captioning"></i> 字幕列表</h3>
+                <span class="close" onclick="closeSubtitleModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    @Each.SubtitleFiles
+                    <a href="video.html?id=@Model.Id&subtitle=@Current.SafeName" class="list-group-item list-group-item-action
+                    @If.IsCurrent
+                        active
+                    @EndIf
+                    ">
+                        <i class="fas fa-file-alt"></i> @Current.Name
+                    </a>
+                    @EndEach
+                </div>
             </div>
         </div>
     </div>
     @EndIf
 
-    <div class="card">
-        <div class="card-header">
-            剧集列表
-        </div>
-        <div class="card-body">
-            <div class="list-group list-group-flush">
-                @Each.VideoFiles
-                <a href="video.html?id=@Current.Id" class="list-group-item list-group-item-action
-				@If.IsCurrent
-				active
-				@EndIf
-			   ">
-                    @Current.EpisodeTitle
-                    <small>
-                        @Current.FileName
-                    </small>
-                </a>
-                @EndEach
+    <!-- Episode Modal -->
+    <div id="episodeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-list"></i> 剧集列表</h3>
+                <span class="close" onclick="closeEpisodeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    @Each.VideoFiles
+                    <a href="video.html?id=@Current.Id" class="list-group-item list-group-item-action
+                    @If.IsCurrent
+                    active
+                    @EndIf
+                    ">
+                        <strong>@Current.EpisodeTitle</strong>
+                        <small>@Current.FileName</small>
+                    </a>
+                    @EndEach
+                </div>
             </div>
         </div>
     </div>
     
-<hr/>
-<footer class="footer text-center">
-    <p>
-        @IfNot.IsAnonymous
-        当前用户: @Model.UserName
-        <a href="/web1/logout" class="btn btn-sm btn-outline-secondary">
-            <i class="fas fa-sign-out-alt"></i> 退出登录
-        </a> |
-        @EndIf
-        @Model.ServerInfo
-    </p>
-</footer>
+    <hr/>
+    <footer class="footer">
+        <p>
+            @IfNot.IsAnonymous
+            当前用户: @Model.UserName
+            <a href="/web1/logout" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-sign-out-alt"></i> 退出登录
+            </a> |
+            @EndIf
+            @Model.ServerInfo
+        </p>
+    </footer>
 </div>
 
 
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<!--<script src="js/popper.min.js"></script>-->
-<script src="js/bootstrap-4.0.0.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="js/bootstrap.bundle-5.3.3.min.js"></script>
 <script>
     $(document).ready(function () {
         var dp = new DPlayer({
@@ -172,6 +383,35 @@
         };
         var instance = new SubtitlesOctopus(options);
     });
+
+    // Modal functions
+    function openSubtitleModal() {
+        document.getElementById('subtitleModal').style.display = 'block';
+    }
+
+    function closeSubtitleModal() {
+        document.getElementById('subtitleModal').style.display = 'none';
+    }
+
+    function openEpisodeModal() {
+        document.getElementById('episodeModal').style.display = 'block';
+    }
+
+    function closeEpisodeModal() {
+        document.getElementById('episodeModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const subtitleModal = document.getElementById('subtitleModal');
+        const episodeModal = document.getElementById('episodeModal');
+        if (event.target === subtitleModal) {
+            closeSubtitleModal();
+        }
+        if (event.target === episodeModal) {
+            closeEpisodeModal();
+        }
+    }
 </script>
 </body>
 </html>
