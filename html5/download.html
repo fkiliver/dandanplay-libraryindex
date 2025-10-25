@@ -17,8 +17,8 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
             transition: all 0.2s;
         }
 
@@ -31,24 +31,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
+        }
+
+        .task-status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .task-name {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-color);
             flex: 1;
             margin-right: 10px;
             word-break: break-all;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         .task-status {
             display: inline-block;
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 10px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 500;
             white-space: nowrap;
         }
@@ -109,10 +115,10 @@
 
         .task-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 6px;
-            margin-bottom: 6px;
-            font-size: 0.8rem;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 4px;
+            margin-bottom: 5px;
+            font-size: 0.75rem;
             color: var(--text-secondary);
         }
 
@@ -122,17 +128,17 @@
         }
 
         .task-info-item i {
-            margin-right: 4px;
-            width: 14px;
-            font-size: 0.75rem;
+            margin-right: 3px;
+            width: 12px;
+            font-size: 0.7rem;
         }
 
         .task-progress {
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .progress {
-            height: 6px;
+            height: 5px;
             background-color: #e0e0e0;
             border-radius: 3px;
             overflow: hidden;
@@ -144,13 +150,13 @@
 
         .task-actions {
             display: flex;
-            gap: 5px;
+            gap: 4px;
             flex-wrap: wrap;
         }
 
         .task-actions .btn {
-            padding: 3px 10px;
-            font-size: 0.75rem;
+            padding: 2px 8px;
+            font-size: 0.7rem;
         }
 
         .toolbar {
@@ -197,15 +203,127 @@
             opacity: 0.3;
         }
 
+        .task-files {
+            margin-top: 6px;
+            padding: 6px;
+            background: var(--bg-color);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .task-files-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+
+        .task-files-toggle {
+            cursor: pointer;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            white-space: nowrap;
+            background: #f0f0f0;
+            color: #666;
+            transition: all 0.2s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .task-files-toggle:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .task-files-toggle i {
+            font-size: 0.65rem;
+        }
+
+        .task-files-list {
+            display: none;
+            margin-top: 4px;
+        }
+
+        .task-files-list.show {
+            display: block;
+        }
+
+        .task-file-item {
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            background: var(--card-bg);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .task-file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .task-file-name {
+            color: var(--text-color);
+            font-weight: 500;
+            word-break: break-all;
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .task-file-progress-text {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        .task-file-path {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        /* 修复模态框 z-index 问题 */
+        .modal-backdrop {
+            z-index: 1040 !important;
+        }
+
+        .modal {
+            z-index: 1050 !important;
+        }
+
         @media (max-width: 768px) {
             .task-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 5px;
+            }
+            
+            .task-status-wrapper {
+                align-self: flex-end;
             }
 
             .task-info {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .task-actions .btn {
+                font-size: 0.7rem;
+                padding: 2px 6px;
+            }
+            
+            .task-name {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -250,15 +368,6 @@
                         <button class="btn btn-success" id="addTaskBtn">
                             <i class="fas fa-plus"></i> 添加任务
                         </button>
-                        <button class="btn btn-warning" id="pauseAllBtn">
-                            <i class="fas fa-pause"></i> 全部暂停
-                        </button>
-                        <button class="btn btn-info" id="resumeAllBtn">
-                            <i class="fas fa-play"></i> 全部继续
-                        </button>
-                        <button class="btn btn-secondary" id="clearCompletedBtn">
-                            <i class="fas fa-trash"></i> 清除已完成
-                        </button>
                         <button class="btn btn-outline-secondary" id="refreshBtn">
                             <i class="fas fa-sync"></i> 刷新
                         </button>
@@ -295,7 +404,7 @@
 
     <!-- 添加任务模态框 -->
     <div class="modal fade" id="addTaskModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-plus"></i> 添加下载任务</h5>
@@ -304,8 +413,11 @@
                 <div class="modal-body">
                     <form id="addTaskForm">
                         <div class="mb-3">
-                            <label for="taskUrl" class="form-label">下载链接</label>
-                            <input type="text" class="form-control" id="taskUrl" placeholder="输入下载链接（HTTP、磁力链接等）" required>
+                            <label for="taskUrl" class="form-label">磁力链接</label>
+                            <input type="text" class="form-control" id="taskUrl" placeholder="输入磁力链接（magnet:?xt=urn:btih:...）" required>
+                            <div class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i> 目前仅支持磁力链接（Magnet URI）
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="taskPath" class="form-label">保存路径（可选）</label>
@@ -374,7 +486,7 @@
                     'Stopping': { text: '正在停止', class: 'stopping' },
                     'Stopped': { text: '已停止', class: 'stopped' },
                     'Hashing': { text: '校验中', class: 'hashing' },
-                    'Metadata': { text: '获取元数据', class: 'metadata' },
+                    'Metadata': { text: '获取元数据中', class: 'metadata' },
                     'Error': { text: '错误', class: 'error' }
                 };
                 return statusMap[state] || { text: state, class: 'waitingforstart' };
@@ -406,6 +518,13 @@
                     $('#loadingIndicator').show();
                     $('#taskList').hide();
                     $('#emptyState').hide();
+                } else {
+                    // 后台刷新时，刷新按钮显示动画
+                    var $refreshBtn = $('#refreshBtn');
+                    var $refreshIcon = $refreshBtn.find('i');
+                    $refreshIcon.addClass('fa-spin');
+                    // 视觉反馈：按钮稍微变暗
+                    $refreshBtn.css('opacity', '0.6');
                 }
 
                 // 调用真实API
@@ -417,6 +536,14 @@
                         
                         if (isInitialLoad) {
                             $('#loadingIndicator').hide();
+                        } else {
+                            // 停止刷新按钮动画
+                            var $refreshBtn = $('#refreshBtn');
+                            var $refreshIcon = $refreshBtn.find('i');
+                            setTimeout(function() {
+                                $refreshIcon.removeClass('fa-spin');
+                                $refreshBtn.css('opacity', '1');
+                            }, 400);
                         }
                         
                         if (taskList.length === 0) {
@@ -440,6 +567,12 @@
                         console.error('加载任务列表失败:', error);
                         if (isInitialLoad) {
                             $('#loadingIndicator').html('<p class="text-danger">加载失败：' + error + '，<a href="javascript:location.reload()">请重试</a></p>');
+                        } else {
+                            // 停止刷新按钮动画
+                            var $refreshBtn = $('#refreshBtn');
+                            var $refreshIcon = $refreshBtn.find('i');
+                            $refreshIcon.removeClass('fa-spin');
+                            $refreshBtn.css('opacity', '1');
                         }
                         taskList = [];
                         updateCounts();
@@ -473,7 +606,7 @@
 
             // 构建任务HTML
             function buildTaskHtml(task) {
-                var statusInfo = getStatusInfo(task.State);
+                var statusInfo = getStatusInfo(task.StateText || task.State);
                 var statusClass = 'status-' + statusInfo.class;
                 var statusText = statusInfo.text;
                 
@@ -525,11 +658,60 @@
                     </button>`;
                 }
 
+                // 构建文件列表按钮和内容
+                var filesToggleBtn = '';
+                var filesListHtml = '';
+                if (task.Files && task.Files.length > 0) {
+                    filesToggleBtn = `
+                        <span class="task-files-toggle" onclick="toggleTaskFiles('${task.Id}')">
+                            <i class="fas fa-chevron-down" id="files-icon-${task.Id}"></i> 文件 (${task.Files.length})
+                        </span>
+                    `;
+                    
+                    filesListHtml = `
+                        <div class="task-files" id="files-${task.Id}" style="display: none;">
+                            <div class="task-files-header">
+                                <span><i class="fas fa-file"></i> 包含 ${task.Files.length} 个文件</span>
+                            </div>
+                            <div class="task-files-list show">
+                                ${task.Files.map((file, index) => {
+                                    // 提取文件名（从完整路径中）
+                                    var fullPath = file.FilePath || '未知';
+                                    var fileName = fullPath.split('\\').pop().split('/').pop();
+                                    
+                                    // 从 API 获取文件进度
+                                    var fileProgress = file.Progress || 0;
+                                    var fileProgressPercent = (fileProgress * 100).toFixed(1);
+                                    
+                                    return `
+                                        <div class="task-file-item">
+                                            <div class="task-file-header">
+                                                <div class="task-file-name">
+                                                    <i class="fas fa-file-video"></i> ${fileName}
+                                                </div>
+                                                <div class="task-file-progress-text">
+                                                    ${fileProgressPercent}%
+                                                </div>
+                                            </div>
+                                            <div class="task-file-path">
+                                                ${fullPath}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
                 return `
-                    <div class="task-item${deletedClass}" data-task-id="${task.Id}" data-status="${task.State}" data-deleted="${task.IsDeleted}">
+                    <div class="task-item${deletedClass}" data-task-id="${task.Id}" data-status="${task.StateText}" data-deleted="${task.IsDeleted}">
                         <div class="task-header">
                             <div class="task-name">${task.Title}${deletedBadge}</div>
-                            <span class="task-status ${statusClass}">${statusText}</span>
+                            <div class="task-status-wrapper">
+                                ${filesToggleBtn}
+                                <span class="task-status ${statusClass}">${statusText}</span>
+                            </div>
                         </div>
                         <div class="task-info">
                             <div class="task-info-item">
@@ -565,6 +747,7 @@
                         <div class="task-actions">
                             ${actions}
                         </div>
+                        ${filesListHtml}
                     </div>
                 `;
             }
@@ -604,12 +787,21 @@
 
             // 更新单个任务元素
             function updateTaskElement($element, task) {
-                var statusInfo = getStatusInfo(task.State);
+                var statusInfo = getStatusInfo(task.StateText || task.State);
                 var statusClass = 'status-' + statusInfo.class;
                 var statusText = statusInfo.text;
                 var progressPercent = (task.Progress * 100).toFixed(1);
 
                 // 只更新变化的部分，避免重建整个DOM
+                
+                // 检查并更新 IsDeleted 状态
+                var currentIsDeleted = $element.attr('data-deleted') === 'true';
+                if (currentIsDeleted !== task.IsDeleted) {
+                    // IsDeleted 状态变化，需要重新构建整个任务项
+                    var newTaskHtml = buildTaskHtml(task);
+                    $element.replaceWith(newTaskHtml);
+                    return; // 已经替换整个元素，直接返回
+                }
                 
                 // 更新状态
                 var $status = $element.find('.task-status');
@@ -619,6 +811,7 @@
                 
                 // 更新数据属性
                 $element.attr('data-status', task.State);
+                $element.attr('data-deleted', task.IsDeleted);
 
                 // 更新信息区域
                 var $infoItems = $element.find('.task-info-item span');
@@ -648,28 +841,40 @@
                 
                 $progressBar.attr('class', 'progress-bar ' + progressBarClass);
 
-                // 更新操作按钮（如果状态变化需要改变按钮）
+                // 更新操作按钮（根据 IsDeleted 和状态）
                 var $actions = $element.find('.task-actions');
                 var newActions = '';
-                if (task.State === 'Downloading' || task.State === 'Starting' || task.State === 'WaitingForStart' || task.State === 'Seeding') {
-                    newActions += `<button class="btn btn-sm btn-warning" onclick="pauseTask('${task.Id}')">
-                        <i class="fas fa-pause"></i> 暂停
-                    </button>`;
-                }
-                if (task.State === 'Paused' || task.State === 'Stopped' || task.State === 'Error') {
-                    newActions += `<button class="btn btn-sm btn-success" onclick="resumeTask('${task.Id}')">
-                        <i class="fas fa-play"></i> 继续
-                    </button>`;
-                }
-                newActions += `<button class="btn btn-sm btn-danger" onclick="deleteTask('${task.Id}', false)">
-                    <i class="fas fa-times"></i> 移除
-                </button>`;
-                newActions += `<button class="btn btn-sm btn-danger" onclick="deleteTask('${task.Id}', true)">
-                    <i class="fas fa-trash"></i> 删除文件
-                </button>`;
                 
-                // 只在按钮数量变化时更新（避免不必要的DOM操作）
-                if ($actions.children().length !== $(newActions).length) {
+                if (task.IsDeleted) {
+                    // 回收站中的任务
+                    newActions += `<button class="btn btn-sm btn-success" onclick="resumeTask('${task.Id}')">
+                        <i class="fas fa-play"></i> 重新开始下载
+                    </button>`;
+                    newActions += `<button class="btn btn-sm btn-danger" onclick="deleteTask('${task.Id}', true)">
+                        <i class="fas fa-trash-alt"></i> 彻底删除
+                    </button>`;
+                } else {
+                    // 正常任务
+                    if (task.State === 'Downloading' || task.State === 'Starting' || task.State === 'WaitingForStart' || task.State === 'Seeding') {
+                        newActions += `<button class="btn btn-sm btn-warning" onclick="pauseTask('${task.Id}')">
+                            <i class="fas fa-pause"></i> 暂停
+                        </button>`;
+                    }
+                    if (task.State === 'Paused' || task.State === 'Stopped' || task.State === 'Error') {
+                        newActions += `<button class="btn btn-sm btn-success" onclick="resumeTask('${task.Id}')">
+                            <i class="fas fa-play"></i> 继续
+                        </button>`;
+                    }
+                    newActions += `<button class="btn btn-sm btn-danger" onclick="deleteTask('${task.Id}', false)">
+                        <i class="fas fa-times"></i> 移除
+                    </button>`;
+                    newActions += `<button class="btn btn-sm btn-danger" onclick="deleteTask('${task.Id}', true)">
+                        <i class="fas fa-trash"></i> 删除文件
+                    </button>`;
+                }
+                
+                // 检查按钮内容是否变化（比较 HTML 内容）
+                if ($actions.html().trim().replace(/\s+/g, ' ') !== newActions.trim().replace(/\s+/g, ' ')) {
                     $actions.html(newActions);
                 }
             }
@@ -710,7 +915,12 @@
                 var path = $('#taskPath').val();
                 
                 if (!url) {
-                    alert('请输入下载链接');
+                    alert('请输入磁力链接');
+                    return;
+                }
+
+                if (!url.toLowerCase().startsWith('magnet:')) {
+                    alert('请输入有效的磁力链接（以 magnet: 开头）');
                     return;
                 }
 
@@ -728,7 +938,7 @@
                             $('#addTaskForm')[0].reset();
                             loadTasks(false); // 重新加载任务列表
                         } else {
-                            alert('任务添加失败，请检查链接是否正确');
+                            alert('任务添加失败，请检查磁力链接是否正确');
                         }
                     },
                     error: function (xhr, status, error) {
@@ -737,100 +947,15 @@
                 });
             });
 
-            $('#pauseAllBtn').click(function () {
-                var tasksToStop = taskList.filter(t => 
-                    t.State === 'Downloading' || t.State === 'Starting' || t.State === 'WaitingForStart' || t.State === 'Seeding'
-                );
-                
-                if (tasksToStop.length === 0) {
-                    alert('没有正在运行的任务');
-                    return;
-                }
-
-                if (!confirm('确定要暂停 ' + tasksToStop.length + ' 个任务吗？')) {
-                    return;
-                }
-
-                var promises = tasksToStop.map(task => 
-                    $.ajax({
-                        url: '/api/v1/download/tasks/' + task.Id + '/pause',
-                        method: 'GET'
-                    })
-                );
-
-                Promise.all(promises).then(() => {
-                    alert('已暂停 ' + tasksToStop.length + ' 个任务');
-                    loadTasks(false);
-                }).catch(error => {
-                    alert('暂停任务时出现错误：' + error);
-                    loadTasks(false);
-                });
-            });
-
-            $('#resumeAllBtn').click(function () {
-                var tasksToStart = taskList.filter(t => 
-                    t.State === 'Paused' || t.State === 'Stopped'
-                );
-                
-                if (tasksToStart.length === 0) {
-                    alert('没有已暂停的任务');
-                    return;
-                }
-
-                if (!confirm('确定要继续 ' + tasksToStart.length + ' 个任务吗？')) {
-                    return;
-                }
-
-                var promises = tasksToStart.map(task => 
-                    $.ajax({
-                        url: '/api/v1/download/tasks/' + task.Id + '/start',
-                        method: 'GET'
-                    })
-                );
-
-                Promise.all(promises).then(() => {
-                    alert('已继续 ' + tasksToStart.length + ' 个任务');
-                    loadTasks(false);
-                }).catch(error => {
-                    alert('继续任务时出现错误：' + error);
-                    loadTasks(false);
-                });
-            });
-
-            $('#clearCompletedBtn').click(function () {
-                var completedTasks = taskList.filter(t => t.State === 'Seeding');
-                
-                if (completedTasks.length === 0) {
-                    alert('没有已完成的任务');
-                    return;
-                }
-
-                if (!confirm('确定要清除 ' + completedTasks.length + ' 个已完成的任务吗？\n（不会删除文件）')) {
-                    return;
-                }
-
-                var promises = completedTasks.map(task => 
-                    $.ajax({
-                        url: '/api/v1/download/tasks/' + task.Id + '/delete?remove=0',
-                        method: 'GET'
-                    })
-                );
-
-                Promise.all(promises).then(() => {
-                    alert('已清除 ' + completedTasks.length + ' 个任务');
-                    loadTasks(false);
-                }).catch(error => {
-                    alert('清除任务时出现错误：' + error);
-                    loadTasks(false);
-                });
-            });
-
             $('#refreshBtn').click(function () {
-                var $icon = $(this).find('i');
+                var $refreshBtn = $(this);
+                var $icon = $refreshBtn.find('i');
                 $icon.addClass('fa-spin');
+                $refreshBtn.css('opacity', '0.6');
                 loadTasks(false);
                 setTimeout(function() {
                     $icon.removeClass('fa-spin');
+                    $refreshBtn.css('opacity', '1');
                 }, 500);
             });
 
@@ -907,6 +1032,20 @@
                 });
             };
 
+            // 切换文件列表显示
+            window.toggleTaskFiles = function (taskId) {
+                var $filesList = $('#files-' + taskId);
+                var $icon = $('#files-icon-' + taskId);
+                
+                if ($filesList.is(':visible')) {
+                    $filesList.slideUp(200);
+                    $icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                } else {
+                    $filesList.slideDown(200);
+                    $icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                }
+            };
+
             // 设置默认筛选为"下载中"
             currentFilter = 'downloading';
             $('.filter-tabs .btn').removeClass('active btn-primary').addClass('btn-outline-primary');
@@ -915,13 +1054,13 @@
             // 初始加载
             loadTasks(true);
 
-            // 自动刷新（每5秒更新一次，减少频率）
+            // 自动刷新（每3秒更新一次）
             autoRefreshInterval = setInterval(function () {
                 // 检查是否有用户交互（例如输入框获得焦点）
                 if (!$('input:focus, button:focus').length) {
                     loadTasks(false);
                 }
-            }, 5000);
+            }, 3000);
 
             // 页面卸载时清除定时器
             $(window).on('beforeunload', function () {
