@@ -40,7 +40,10 @@
         <div id="bangumiModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="modalTitle"></h3>
+                    <div>
+                        <h3 id="modalTitle"></h3>
+                        <small id="lastWatchedInfo" style="color: #6c757d; font-size: 0.875rem;"></small>
+                    </div>
                     <span class="close" onclick="closeModal()">&times;</span>
                 </div>
                 <div id="loading" class="loading">
@@ -196,6 +199,7 @@
 
         function showModal(animeId, title) {
             document.getElementById('modalTitle').innerText = title;
+            document.getElementById('lastWatchedInfo').innerText = '';
             document.getElementById('loading').style.display = 'block';
             document.getElementById('episodeList').style.display = 'none';
             document.getElementById('bangumiModal').style.display = 'block';
@@ -212,6 +216,49 @@
                     episodeList.style.display = 'block';
                     episodeList.innerHTML = '';
 
+                    // 查找最后观看的剧集
+                    var lastWatchedEpisode = null;
+                    var lastWatchedTime = null;
+                    var isCloudTime = false;
+
+                    response.Episodes.forEach(function (episode) {
+                        var localTime = episode.LastWatched ? new Date(episode.LastWatched) : null;
+                        var cloudTime = episode.LastWatchedCloud ? new Date(episode.LastWatchedCloud) : null;
+                        
+                        var episodeLastTime = null;
+                        var episodeIsCloud = false;
+                        
+                        if (localTime && cloudTime) {
+                            if (cloudTime > localTime) {
+                                episodeLastTime = cloudTime;
+                                episodeIsCloud = true;
+                            } else {
+                                episodeLastTime = localTime;
+                            }
+                        } else if (cloudTime) {
+                            episodeLastTime = cloudTime;
+                            episodeIsCloud = true;
+                        } else if (localTime) {
+                            episodeLastTime = localTime;
+                        }
+                        
+                        if (episodeLastTime && (!lastWatchedTime || episodeLastTime > lastWatchedTime)) {
+                            lastWatchedTime = episodeLastTime;
+                            lastWatchedEpisode = episode;
+                            isCloudTime = episodeIsCloud;
+                        }
+                    });
+
+                    // 显示最后观看信息
+                    if (lastWatchedEpisode) {
+                        var timeStr = lastWatchedTime.toLocaleString();
+                        var sourceStr = isCloudTime ? '云端' : '本地';
+                        document.getElementById('lastWatchedInfo').innerHTML = 
+                            `<i class="fas fa-history"></i> 上次观看: ${lastWatchedEpisode.EpisodeTitle} (${sourceStr}, ${timeStr})`;
+                    }
+
+                    var lastWatchedElement = null;
+
                     response.Episodes.forEach(function (episode) {
                         var statusIcon = '';
                         if (episode.AirStatus === 1) {
@@ -224,23 +271,51 @@
 
                         var li = document.createElement('li');
                         li.className = 'episode-item';
+                        
+                        // 如果是最后观看的剧集，添加特殊标记
+                        if (lastWatchedEpisode && episode.EpisodeNumber === lastWatchedEpisode.EpisodeNumber) {
+                            li.classList.add('last-watched-episode');
+                            lastWatchedElement = li;
+                        }
+
+                        // 生成文件列表 HTML（带缩略图）
+                        var filesHtml = episode.LocalMatchedFiles.map(file => {
+                            var thumbnailUrl = `/api/v1/image/id/${file.Id}`;
+                            return `
+                                <a href="video.html?id=${file.Id}" target="_blank" class="file-item-link">
+                                    <img src="${thumbnailUrl}" alt="${file.Name}" class="file-thumbnail" 
+                                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22%3E无缩略图%3C/text%3E%3C/svg%3E';">
+                                    <div class="file-item-info">
+                                        <i class="fas fa-file-video"></i> ${file.Name}
+                                    </div>
+                                </a>
+                            `;
+                        }).join('');
+
                         li.innerHTML = `
-                    <div class="episode-title">
-                        ${statusIcon}
-                        <i class="fas fa-tv"></i>
-                        ${episode.EpisodeNumber} - ${episode.EpisodeTitle}
-                    </div>
-                    <div class="episode-details">
-                        <div><i class="fas fa-calendar-alt"></i> 上映日期: ${new Date(episode.AirDate).toLocaleDateString()}</div>
-                        <div><i class="fas fa-clock"></i> 上次观看时间: ${episode.LastWatched ? new Date(episode.LastWatched).toLocaleString() : 'N/A'}</div>
-                        <div><i class="fas fa-cloud"></i> 上次观看时间（云端）: ${episode.LastWatchedCloud ? new Date(episode.LastWatchedCloud).toLocaleString() : 'N/A'}</div>
-                    </div>
-                    <div class="local-files">
-                        ${episode.LocalMatchedFiles.map(file => `<a href="video.html?id=${file.Id}" target="_blank"><i class="fas fa-file-video"></i> ${file.Name}</a>`).join('')}
-                    </div>
-                `;
+                            <div class="episode-title">
+                                ${statusIcon}
+                                <i class="fas fa-tv"></i>
+                                ${episode.EpisodeNumber} - ${episode.EpisodeTitle}
+                            </div>
+                            <div class="episode-details">
+                                <div><i class="fas fa-calendar-alt"></i> 上映日期: ${new Date(episode.AirDate).toLocaleDateString()}</div>
+                                <div><i class="fas fa-clock"></i> 上次观看时间: ${episode.LastWatched ? new Date(episode.LastWatched).toLocaleString() : 'N/A'}</div>
+                                <div><i class="fas fa-cloud"></i> 上次观看时间（云端）: ${episode.LastWatchedCloud ? new Date(episode.LastWatchedCloud).toLocaleString() : 'N/A'}</div>
+                            </div>
+                            <div class="local-files">
+                                ${filesHtml}
+                            </div>
+                        `;
                         episodeList.appendChild(li);
                     });
+
+                    // 滚动到最后观看的剧集
+                    if (lastWatchedElement) {
+                        setTimeout(function() {
+                            lastWatchedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
                 },
                 error: function () {
                     document.getElementById('loading').innerText = '加载失败，请重试';

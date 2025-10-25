@@ -173,27 +173,38 @@
         top: 0;
         width: 100%;
         height: 100%;
-        overflow: auto;
         background-color: rgba(0, 0, 0, 0.4);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal[style*="display: block"] {
+        display: flex !important;
     }
 
     .modal-content {
         background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
+        padding: 0;
         border: 1px solid #888;
-        width: 80%;
-        max-width: 800px;
+        width: 90%;
+        max-width: 900px;
+        max-height: 90vh;
         border-radius: 8px;
+        display: flex;
+        flex-direction: column;
     }
 
     .modal-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         border-bottom: 1px solid #ddd;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
+        padding: 1rem 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .modal-header h3 {
+        margin: 0 0 0.25rem 0;
     }
 
     .close {
@@ -213,20 +224,35 @@
     .loading {
         text-align: center;
         font-size: 1.5rem;
-        margin: 2rem 0;
+        padding: 2rem 0;
     }
 
     .episode-list {
         list-style: none;
-        padding: 0;
+        padding: 1rem 1.5rem;
+        margin: 0;
+        overflow-y: auto;
+        flex: 1;
+        min-height: 0;
     }
 
     .episode-item {
-        border-bottom: 1px solid #ccc;
-        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+        padding: 1rem 0;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        transition: background-color 0.2s;
+    }
+
+    .episode-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .episode-item.last-watched-episode {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding-left: 0.75rem;
     }
 
     .episode-title {
@@ -252,10 +278,52 @@
     }
 
     .local-files {
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
         font-size: 0.875rem;
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .file-item-link {
+        color: #007bff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .file-item-link:hover {
+        background-color: #f8f9fa;
+        border-color: #007bff;
+        text-decoration: none;
+    }
+
+    .file-thumbnail {
+        width: 120px;
+        height: 68px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+        background: #f0f0f0;
+    }
+
+    .file-item-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        word-break: break-word;
+    }
+
+    .file-item-info i {
+        margin-right: 0.5rem;
+        color: #6c757d;
     }
 
     .local-files a {
