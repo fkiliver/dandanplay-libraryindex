@@ -5,7 +5,7 @@
     // 默认弹幕设置
     const defaultDanmakuSettings = {
         fontSize: 25,
-        fontFamily: 'SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif',
+        fontFamily: '"Microsoft YaHei", SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif',
         speed: 10, // 持续时间（秒）
         opacity: 1.0,
         textStrokeWidth: 0.5,
@@ -32,7 +32,6 @@
         return Object.assign({}, defaultDanmakuSettings);
     }
     
-    // 保存设置到localStorage
     function saveDanmakuSettings(settings) {
         try {
             localStorage.setItem('danmakuSettings', JSON.stringify(settings));
@@ -41,15 +40,12 @@
         }
     }
     
-    // 应用弹幕样式
     function applyDanmakuStyles(settings) {
-        // 移除旧的样式
         const oldStyle = document.getElementById('dynamic-danmaku-style');
         if (oldStyle) {
             oldStyle.remove();
         }
         
-        // 创建新样式
         const style = document.createElement('style');
         style.id = 'dynamic-danmaku-style';
         
@@ -97,7 +93,6 @@
         applyDanmakuStyles(settings);
     }
     
-    // 打开弹幕设置弹窗
     window.openDanmakuSettingsModal = function() {
         const modal = document.getElementById('danmakuSettingsModal');
         if (modal) {
@@ -136,19 +131,15 @@
         }
     };
     
-    // 保存弹幕设置（废弃，改为实时保存）
     window.saveDanmakuSettings = function() {
-        // 实时保存已经在 updateDanmakuPreview 中完成，这里只需关闭弹窗
         closeDanmakuSettingsModal();
     };
     
     // 重置为默认设置
     window.resetDanmakuSettings = function() {
-        // 直接重置，不需要确认
         localStorage.removeItem('danmakuSettings');
         applyDanmakuStyles(defaultDanmakuSettings);
         
-        // 更新表单显示为默认值
         document.getElementById('danmakuFontSize').value = defaultDanmakuSettings.fontSize;
         document.getElementById('danmakuFontSizeValue').textContent = defaultDanmakuSettings.fontSize;
         document.getElementById('danmakuFontFamily').value = defaultDanmakuSettings.fontFamily;
@@ -170,11 +161,8 @@
         document.getElementById('danmakuDisplayAreaValue').textContent = defaultDanmakuSettings.displayArea;
         document.getElementById('danmakuLineHeight').value = defaultDanmakuSettings.lineHeight;
         document.getElementById('danmakuLineHeightValue').textContent = defaultDanmakuSettings.lineHeight;
-        
-        // 不关闭弹窗，让用户看到重置后的效果
     };
     
-    // 实时预览并保存
     window.updateDanmakuPreview = function(settingName, value) {
         const settings = loadDanmakuSettings();
         
@@ -188,7 +176,6 @@
                 settings.speed = parseFloat(value);
                 break;
             case 'opacity':
-                document.getElementById('danmakuOpacityValue').textContent = Math.round(value * 100);
                 settings.opacity = parseFloat(value);
                 settings.textShadowColor = `rgba(0, 0, 0, ${parseFloat(value)})`;
                 break;
@@ -227,13 +214,10 @@
                 break;
         }
         
-        // 实时保存到 localStorage
         saveDanmakuSettings(settings);
-        // 实时应用样式
         applyDanmakuStyles(settings);
     };
     
-    // 页面加载时初始化
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initDanmakuSettings);
     } else {

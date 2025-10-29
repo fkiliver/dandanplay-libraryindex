@@ -50,7 +50,6 @@
         </ol>
     </nav>
 
-    <!-- 播放器和侧边栏布局 -->
     <div class="player-wrapper">
         <div class="player-main">
             <div id="dplayer"></div>
@@ -142,8 +141,8 @@
                                 <i class="fas fa-font"></i> 字体
                             </label>
                             <select id="danmakuFontFamily" onchange="updateDanmakuPreview('fontFamily', this.value)">
-                                <option value="SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif">黑体</option>
                                 <option value="'Microsoft YaHei', SimHei, sans-serif">微软雅黑</option>
+                                <option value="SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif">黑体</option>
                                 <option value="SimSun, serif">宋体</option>
                                 <option value="KaiTi, serif">楷体</option>
                                 <option value="Arial, Helvetica, sans-serif">Arial</option>
@@ -285,25 +284,24 @@
 <script>
     $(document).ready(function () {
         var dp = new DPlayer({
-            container: document.getElementById('dplayer'), //播放器容器元素
-            theme: '@Model.Color', //控件的颜色
-            loop: false, //循环
-            screenshot: true, //截图
-            hotkey: true, //热键
-            preload: 'none', //预加载
-            volume: 1, //默认音量
-            mutex: true, //互斥，阻止多个播放器同时播放
+            container: document.getElementById('dplayer'),
+            theme: '@Model.Color',
+            loop: false,
+            screenshot: true,
+            hotkey: true,
+            preload: 'none',
+            volume: 1,
+            mutex: true,
             video: {
                 url: '@Model.Video',
                 pic: '@Model.Image',
                 type: 'auto'
             },
             danmaku: {
-                id: '@Model.Id', //弹幕库id
-                api: 'dplayer/', //弹幕库api
-                bottom: '15%', //底部距离
-                unlimited: true //无限制
-                //maximum: 60 //最大弹幕
+                id: '@Model.Id',
+                api: 'dplayer/',
+                bottom: '15%',
+                unlimited: false
             }
         });
         $(".dplayer-video").attr("crossorigin", "use-credentials");
@@ -324,10 +322,8 @@
         const header = document.getElementById(headerId);
         const icon = header.querySelector('.expand-icon');
         
-        // Check if this panel is already active
         const isActive = panel.classList.contains('active');
         
-        // Close all panels
         document.querySelectorAll('.sidebar-panel-content').forEach(p => {
             p.classList.remove('active');
         });
@@ -336,7 +332,6 @@
             h.querySelector('.expand-icon').classList.remove('expanded');
         });
         
-        // If this panel wasn't active, open it
         if (!isActive) {
             panel.classList.add('active');
             header.classList.add('active');
@@ -344,19 +339,15 @@
         }
     }
 
-    // Attach event listeners after DOM is loaded
     $(document).ready(function() {
-        // Subtitle selector
         $('#subtitleSelector').on('click', function() {
             toggleSidebarPanel('subtitlePanel', 'subtitleSelector');
         });
         
-        // Episode selector
         $('#episodeSelector').on('click', function() {
             toggleSidebarPanel('episodePanel', 'episodeSelector');
         });
         
-        // Danmaku settings
         $('#danmakuSettingsBtn').on('click', function() {
             toggleSidebarPanel('danmakuSettingsPanel', 'danmakuSettingsBtn');
         });

@@ -43,7 +43,6 @@ body {
 }
 
 /* Danmaku styles are now dynamically controlled by JavaScript */
-/* mobile */
 .dplayer-mobile .dplayer-controller-mask {
     height: 60px;
 }
@@ -277,7 +276,6 @@ body {
     background: #555;
 }
 
-/* Danmaku Settings Modal Styles */
 .settings-group {
     margin-bottom: 1rem;
 }
@@ -392,7 +390,6 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* 移动端上下布局 */
     .player-wrapper {
         flex-direction: column;
     }
