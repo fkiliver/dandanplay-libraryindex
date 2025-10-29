@@ -1,0 +1,419 @@
+body {
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 1600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+}
+
+/* 播放器和侧边栏布局 */
+.player-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.player-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.player-sidebar {
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.dplayer {
+    width: 100%;
+    height: 70vh;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Danmaku styles are now dynamically controlled by JavaScript */
+/* mobile */
+.dplayer-mobile .dplayer-controller-mask {
+    height: 60px;
+}
+
+
+/* Compact card style */
+.compact-card {
+    background: white;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.compact-card:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.compact-card:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom: none;
+}
+
+.compact-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.875rem 1rem;
+    border-radius: 0;
+    transition: background-color 0.2s;
+    background-color: #fafafa;
+}
+
+.compact-card-header:hover {
+    background-color: #f0f0f0;
+}
+
+.compact-card-header.active {
+    background-color: #e7f1ff;
+}
+
+.current-item-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.current-item-info i {
+    font-size: 1.1rem;
+    color: #0d6efd;
+}
+
+.current-item-text {
+    flex: 1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+}
+
+.expand-icon {
+    color: #6c757d;
+    transition: transform 0.2s;
+    font-size: 0.875rem;
+}
+
+.expand-icon.expanded {
+    transform: rotate(90deg);
+}
+
+/* 侧边栏面板内容 */
+.sidebar-panel-content {
+    display: none;
+    background: white;
+    max-height: calc(70vh - 150px);
+    overflow-y: auto;
+    border-top: 1px solid #e0e0e0;
+}
+
+.sidebar-panel-content.active {
+    display: block;
+}
+
+.sidebar-panel-body {
+    padding: 0.75rem;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 8px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 1.5rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+}
+
+.modal-body {
+    padding: 1rem 1.5rem;
+    overflow-y: auto;
+}
+
+.list-group-item {
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    padding: 0.6rem 0.875rem;
+    border: 1px solid #dee2e6;
+    border-bottom: none;
+    font-size: 0.875rem;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.list-group-item:last-child {
+    border-bottom: 1px solid #dee2e6;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #0d6efd;
+}
+
+.list-group-item.active {
+    border-left-color: #0d6efd;
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.list-group-item small {
+    display: block;
+    color: #6c757d;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.list-group-item strong {
+    font-size: 0.875rem;
+}
+
+.list-group-item i {
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.footer {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(248, 249, 250, 0.9);
+    border-radius: 8px;
+}
+
+/* Sidebar box styling */
+.player-sidebar {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Scrollbar styling for sidebar panels */
+.sidebar-panel-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar-panel-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sidebar-panel-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.sidebar-panel-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Danmaku Settings Modal Styles */
+.settings-group {
+    margin-bottom: 1rem;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+    color: #333;
+    font-size: 0.85rem;
+}
+
+.settings-group input[type="range"] {
+    width: 100%;
+    margin-top: 0.15rem;
+}
+
+.settings-group input[type="text"],
+.settings-group input[type="color"],
+.settings-group select {
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.settings-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.settings-value {
+    min-width: 35px;
+    text-align: right;
+    font-weight: bold;
+    color: #0d6efd;
+    font-size: 0.85rem;
+}
+
+.settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    gap: 0.5rem;
+}
+
+.settings-actions button {
+    padding: 0.4rem 0.875rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #ddd;
+    gap: 0.5rem;
+}
+
+.modal-footer button {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5c636a;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+}
+
+@media (max-width: 768px) {
+    /* 移动端上下布局 */
+    .player-wrapper {
+        flex-direction: column;
+    }
+
+    .player-sidebar {
+        width: 100%;
+    }
+
+    .dplayer {
+        height: 50vh;
+    }
+
+    .sidebar-panel-content {
+        max-height: 400px;
+    }
+
+    .current-item-text {
+        font-size: 0.85rem;
+    }
+
+    .current-item-info i {
+        font-size: 1rem;
+    }
+}

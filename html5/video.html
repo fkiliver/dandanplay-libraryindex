@@ -10,290 +10,30 @@
     <link href="css/bootstrap-5.3.3.min.css" rel="stylesheet">
     <link href="css/font-awesome-all-6.5.2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/DPlayer.min.css">
+    <link rel="stylesheet" href="css/video.css?v=@Model.StaticResourceVersion">
     <script src="js/DPlayer-1.27.0.min.js"></script>
     <script src="js/subtitles-octopus.js"></script>
     <style type="text/css">
+        @If.UseCustomBackground
         body {
-            @If.UseCustomBackground
             background: url(@Model.CustomBackgroundUrl);
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            @EndIf
-            @IfNot.UseCustomBackground
-            background: linear-gradient(to bottom, #FFD194, #70E1F5);
-            @EndIf
-            min-height: 100vh;
-            padding: 1rem;
         }
-
         .container {
-            max-width: 1400px;
-            @If.UseCustomBackground
             background: rgba(255, 255, 255, 0.95);
-            @EndIf
-            @IfNot.UseCustomBackground
+        }
+        @EndIf
+        @IfNot.UseCustomBackground
+        body {
+            background: linear-gradient(to bottom, #FFD194, #70E1F5);
+        }
+        .container {
             background: rgba(255, 255, 255, 0.9);
-            @EndIf
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
         }
-
-        .breadcrumb {
-            background: transparent;
-            padding: 0.5rem 0;
-            margin-bottom: 1rem;
-        }
-
-        .dplayer {
-            width: 100%;
-            height: 70vh;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        /* Danmaku styles are now dynamically controlled by JavaScript */
-        /* mobile */
-        .dplayer-mobile .dplayer-controller-mask {
-            height: 60px;
-        }
-
-
-        /* Compact card style */
-        .compact-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .compact-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-
-        .compact-card-header:hover {
-            background-color: #f8f9fa;
-        }
-
-        .current-item-info {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .current-item-info i {
-            font-size: 1.25rem;
-            color: #0d6efd;
-        }
-
-        .current-item-text {
-            flex: 1;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .expand-icon {
-            color: #6c757d;
-            transition: transform 0.2s;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 0;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 8px;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-            padding: 1rem 1.5rem;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            font-size: 1.25rem;
-        }
-
-        .close {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-        }
-
-        .modal-body {
-            padding: 1rem 1.5rem;
-            overflow-y: auto;
-        }
-
-        .list-group-item {
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-            border-left-color: #0d6efd;
-        }
-
-        .list-group-item.active {
-            border-left-color: #0d6efd;
-            background-color: #e7f1ff;
-            color: #0d6efd;
-        }
-
-        .list-group-item small {
-            display: block;
-            color: #6c757d;
-            margin-top: 0.25rem;
-            font-size: 0.875rem;
-        }
-
-        .footer {
-            margin-top: 2rem;
-            text-align: center;
-            padding: 1rem;
-            background-color: rgba(248, 249, 250, 0.9);
-            border-radius: 8px;
-        }
-
-        /* Danmaku Settings Modal Styles */
-        .settings-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .settings-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .settings-group input[type="range"] {
-            width: 100%;
-            margin-top: 0.25rem;
-        }
-
-        .settings-group input[type="text"],
-        .settings-group input[type="color"],
-        .settings-group select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .settings-value {
-            min-width: 40px;
-            text-align: right;
-            font-weight: bold;
-            color: #0d6efd;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #ddd;
-            gap: 0.5rem;
-        }
-
-        .modal-footer button {
-            flex: 1;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5c636a;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #bb2d3b;
-        }
-
-        @media (max-width: 768px) {
-            .dplayer {
-                height: 50vh;
-            }
-
-            .current-item-text {
-                font-size: 0.9rem;
-            }
-        }
+        @EndIf
     </style>
 </head>
 <body>
@@ -310,236 +50,220 @@
         </ol>
     </nav>
 
-    <div id="dplayer"></div>
-
-    @If.HasSubtitle
-    <div class="compact-card">
-        <div class="compact-card-header" id="subtitleSelector">
-            <div class="current-item-info">
-                <i class="fas fa-closed-captioning"></i>
-                <span class="current-item-text">
-                    字幕: 
-                    @Each.SubtitleFiles
-                    @If.IsCurrent
-                    @Current.Name
-                    @EndIf
-                    @EndEach
-                </span>
-            </div>
-            <i class="fas fa-chevron-right expand-icon"></i>
+    <!-- 播放器和侧边栏布局 -->
+    <div class="player-wrapper">
+        <div class="player-main">
+            <div id="dplayer"></div>
         </div>
-    </div>
-    @EndIf
 
-    <div class="compact-card">
-        <div class="compact-card-header" id="danmakuSettingsBtn">
-            <div class="current-item-info">
-                <i class="fas fa-palette"></i>
-                <span class="current-item-text">
-                    弹幕外观设置
-                </span>
-            </div>
-            <i class="fas fa-chevron-right expand-icon"></i>
-        </div>
-    </div>
-
-    <div class="compact-card">
-        <div class="compact-card-header" id="episodeSelector">
-            <div class="current-item-info">
-                <i class="fas fa-list"></i>
-                <span class="current-item-text">
-                    当前剧集: @Model.EpisodeTitle
-                </span>
-            </div>
-            <i class="fas fa-chevron-right expand-icon"></i>
-        </div>
-    </div>
-
-    <!-- Danmaku Settings Modal -->
-    <div id="danmakuSettingsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-palette"></i> 弹幕外观设置</h3>
-                <span class="close" id="closeDanmakuSettingsBtn">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="settings-group">
-                    <label for="danmakuFontSize">
-                        <i class="fas fa-text-height"></i> 字体大小
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuFontSize" min="12" max="60" value="25" 
-                               oninput="updateDanmakuPreview('fontSize', this.value)">
-                        <span class="settings-value" id="danmakuFontSizeValue">25</span>
+        <div class="player-sidebar">
+            @If.HasSubtitle
+            <div class="compact-card">
+                <div class="compact-card-header" id="subtitleSelector">
+                    <div class="current-item-info">
+                        <i class="fas fa-closed-captioning"></i>
+                        <span class="current-item-text">
+                            字幕列表
+                        </span>
                     </div>
+                    <i class="fas fa-chevron-right expand-icon"></i>
                 </div>
-
-                <div class="settings-group">
-                    <label for="danmakuFontFamily">
-                        <i class="fas fa-font"></i> 字体
-                    </label>
-                    <select id="danmakuFontFamily" onchange="updateDanmakuPreview('fontFamily', this.value)">
-                        <option value="SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif">黑体</option>
-                        <option value="'Microsoft YaHei', SimHei, sans-serif">微软雅黑</option>
-                        <option value="SimSun, serif">宋体</option>
-                        <option value="KaiTi, serif">楷体</option>
-                        <option value="Arial, Helvetica, sans-serif">Arial</option>
-                        <option value="'Courier New', monospace">Courier New</option>
-                    </select>
-                </div>
-
-                <div class="settings-group">
-                    <label>
-                        <input type="checkbox" id="danmakuBold" onchange="updateDanmakuPreview('bold', this.checked)">
-                        <i class="fas fa-bold"></i> 粗体
-                    </label>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuSpeed">
-                        <i class="fas fa-tachometer-alt"></i> 滚动速度（持续时间/秒）
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuSpeed" min="3" max="20" step="0.5" value="10" 
-                               oninput="updateDanmakuPreview('speed', this.value)">
-                        <span class="settings-value" id="danmakuSpeedValue">10</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuOpacity">
-                        <i class="fas fa-adjust"></i> 不透明度
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuOpacity" min="0.1" max="1" step="0.1" value="1.0" 
-                               oninput="updateDanmakuPreview('opacity', this.value)">
-                        <span class="settings-value" id="danmakuOpacityValue">100</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuDisplayArea">
-                        <i class="fas fa-expand-arrows-alt"></i> 显示区域（%）
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuDisplayArea" min="25" max="100" step="5" value="100" 
-                               oninput="updateDanmakuPreview('displayArea', this.value)">
-                        <span class="settings-value" id="danmakuDisplayAreaValue">100</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuTextStrokeWidth">
-                        <i class="fas fa-border-style"></i> 描边宽度
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuTextStrokeWidth" min="0" max="3" step="0.1" value="0.5" 
-                               oninput="updateDanmakuPreview('textStrokeWidth', this.value)">
-                        <span class="settings-value" id="danmakuTextStrokeWidthValue">0.5</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuTextStrokeColor">
-                        <i class="fas fa-palette"></i> 描边颜色
-                    </label>
-                    <input type="color" id="danmakuTextStrokeColor" value="#000000" 
-                           onchange="updateDanmakuPreview('textStrokeColor', this.value)">
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuTextShadowX">
-                        <i class="fas fa-arrows-alt-h"></i> 阴影水平偏移
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuTextShadowX" min="-5" max="5" step="0.5" value="1.0" 
-                               oninput="updateDanmakuPreview('textShadowX', this.value)">
-                        <span class="settings-value" id="danmakuTextShadowXValue">1.0</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuTextShadowY">
-                        <i class="fas fa-arrows-alt-v"></i> 阴影垂直偏移
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuTextShadowY" min="-5" max="5" step="0.5" value="1.0" 
-                               oninput="updateDanmakuPreview('textShadowY', this.value)">
-                        <span class="settings-value" id="danmakuTextShadowYValue">1.0</span>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <label for="danmakuTextShadowBlur">
-                        <i class="fas fa-cloud"></i> 阴影模糊半径
-                    </label>
-                    <div class="settings-row">
-                        <input type="range" id="danmakuTextShadowBlur" min="0" max="10" step="0.5" value="0.5" 
-                               oninput="updateDanmakuPreview('textShadowBlur', this.value)">
-                        <span class="settings-value" id="danmakuTextShadowBlurValue">0.5</span>
+                <div class="sidebar-panel-content" id="subtitlePanel">
+                    <div class="sidebar-panel-body">
+                        <div class="list-group">
+                            @Each.SubtitleFiles
+                            <a href="video.html?id=@Model.Id&subtitle=@Current.SafeName" class="list-group-item list-group-item-action
+                            @If.IsCurrent
+                                active
+                            @EndIf
+                            ">
+                                <i class="fas fa-file-alt"></i> @Current.Name
+                            </a>
+                            @EndEach
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn-danger" id="resetDanmakuBtn">
-                    <i class="fas fa-undo"></i> 重置为默认
-                </button>
-                <button class="btn-secondary" id="cancelDanmakuBtn">
-                    <i class="fas fa-times"></i> 关闭
-                </button>
-            </div>
-        </div>
-    </div>
+            @EndIf
 
-    <!-- Subtitle Modal -->
-    @If.HasSubtitle
-    <div id="subtitleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-closed-captioning"></i> 字幕列表</h3>
-                <span class="close" id="closeSubtitleBtn">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="list-group">
-                    @Each.SubtitleFiles
-                    <a href="video.html?id=@Model.Id&subtitle=@Current.SafeName" class="list-group-item list-group-item-action
-                    @If.IsCurrent
-                        active
-                    @EndIf
-                    ">
-                        <i class="fas fa-file-alt"></i> @Current.Name
-                    </a>
-                    @EndEach
+            <div class="compact-card">
+                <div class="compact-card-header" id="episodeSelector">
+                    <div class="current-item-info">
+                        <i class="fas fa-list"></i>
+                        <span class="current-item-text">
+                            播放列表
+                        </span>
+                    </div>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <div class="sidebar-panel-content" id="episodePanel">
+                    <div class="sidebar-panel-body">
+                        <div class="list-group">
+                            @Each.VideoFiles
+                            <a href="video.html?id=@Current.Id" class="list-group-item list-group-item-action
+                            @If.IsCurrent
+                            active
+                            @EndIf
+                            ">
+                                <strong>@Current.EpisodeTitle</strong>
+                                <small>@Current.FileName</small>
+                            </a>
+                            @EndEach
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    @EndIf
 
-    <!-- Episode Modal -->
-    <div id="episodeModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-list"></i> 剧集列表</h3>
-                <span class="close" id="closeEpisodeBtn">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="list-group">
-                    @Each.VideoFiles
-                    <a href="video.html?id=@Current.Id" class="list-group-item list-group-item-action
-                    @If.IsCurrent
-                    active
-                    @EndIf
-                    ">
-                        <strong>@Current.EpisodeTitle</strong>
-                        <small>@Current.FileName</small>
-                    </a>
-                    @EndEach
+            <div class="compact-card">
+                <div class="compact-card-header" id="danmakuSettingsBtn">
+                    <div class="current-item-info">
+                        <i class="fas fa-palette"></i>
+                        <span class="current-item-text">
+                            弹幕外观设置
+                        </span>
+                    </div>
+                    <i class="fas fa-chevron-right expand-icon"></i>
+                </div>
+                <div class="sidebar-panel-content" id="danmakuSettingsPanel">
+                    <div class="sidebar-panel-body">
+                        <div class="settings-group">
+                            <label for="danmakuFontSize">
+                                <i class="fas fa-text-height"></i> 字体大小
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuFontSize" min="12" max="60" value="25" 
+                                       oninput="updateDanmakuPreview('fontSize', this.value)">
+                                <span class="settings-value" id="danmakuFontSizeValue">25</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuFontFamily">
+                                <i class="fas fa-font"></i> 字体
+                            </label>
+                            <select id="danmakuFontFamily" onchange="updateDanmakuPreview('fontFamily', this.value)">
+                                <option value="SimHei, 'Microsoft JhengHei', Arial, Helvetica, sans-serif">黑体</option>
+                                <option value="'Microsoft YaHei', SimHei, sans-serif">微软雅黑</option>
+                                <option value="SimSun, serif">宋体</option>
+                                <option value="KaiTi, serif">楷体</option>
+                                <option value="Arial, Helvetica, sans-serif">Arial</option>
+                                <option value="'Courier New', monospace">Courier New</option>
+                            </select>
+                        </div>
+
+                        <div class="settings-group">
+                            <label>
+                                <input type="checkbox" id="danmakuBold" onchange="updateDanmakuPreview('bold', this.checked)">
+                                <i class="fas fa-bold"></i> 粗体
+                            </label>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuSpeed">
+                                <i class="fas fa-tachometer-alt"></i> 滚动速度（持续时间/秒）
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuSpeed" min="3" max="20" step="0.5" value="10" 
+                                       oninput="updateDanmakuPreview('speed', this.value)">
+                                <span class="settings-value" id="danmakuSpeedValue">10</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuOpacity">
+                                <i class="fas fa-adjust"></i> 不透明度
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuOpacity" min="0.1" max="1" step="0.1" value="1.0" 
+                                       oninput="updateDanmakuPreview('opacity', this.value)">
+                                <span class="settings-value" id="danmakuOpacityValue">100</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuDisplayArea">
+                                <i class="fas fa-expand-arrows-alt"></i> 显示区域（%）
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuDisplayArea" min="25" max="100" step="5" value="100" 
+                                       oninput="updateDanmakuPreview('displayArea', this.value)">
+                                <span class="settings-value" id="danmakuDisplayAreaValue">100</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuLineHeight">
+                                <i class="fas fa-text-height"></i> 行间距
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuLineHeight" min="0" max="20" step="1" value="0" 
+                                       oninput="updateDanmakuPreview('lineHeight', this.value)">
+                                <span class="settings-value" id="danmakuLineHeightValue">0</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuTextStrokeWidth">
+                                <i class="fas fa-border-style"></i> 描边宽度
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuTextStrokeWidth" min="0" max="3" step="0.1" value="0.5" 
+                                       oninput="updateDanmakuPreview('textStrokeWidth', this.value)">
+                                <span class="settings-value" id="danmakuTextStrokeWidthValue">0.5</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuTextStrokeColor">
+                                <i class="fas fa-palette"></i> 描边颜色
+                            </label>
+                            <input type="color" id="danmakuTextStrokeColor" value="#000000" 
+                                   onchange="updateDanmakuPreview('textStrokeColor', this.value)">
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuTextShadowX">
+                                <i class="fas fa-arrows-alt-h"></i> 阴影水平偏移
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuTextShadowX" min="-5" max="5" step="0.5" value="1.0" 
+                                       oninput="updateDanmakuPreview('textShadowX', this.value)">
+                                <span class="settings-value" id="danmakuTextShadowXValue">1.0</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuTextShadowY">
+                                <i class="fas fa-arrows-alt-v"></i> 阴影垂直偏移
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuTextShadowY" min="-5" max="5" step="0.5" value="1.0" 
+                                       oninput="updateDanmakuPreview('textShadowY', this.value)">
+                                <span class="settings-value" id="danmakuTextShadowYValue">1.0</span>
+                            </div>
+                        </div>
+
+                        <div class="settings-group">
+                            <label for="danmakuTextShadowBlur">
+                                <i class="fas fa-cloud"></i> 阴影模糊半径
+                            </label>
+                            <div class="settings-row">
+                                <input type="range" id="danmakuTextShadowBlur" min="0" max="10" step="0.5" value="0.5" 
+                                       oninput="updateDanmakuPreview('textShadowBlur', this.value)">
+                                <span class="settings-value" id="danmakuTextShadowBlurValue">0.5</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-actions">
+                        <button class="btn-danger" id="resetDanmakuBtn">
+                            <i class="fas fa-undo"></i> 重置
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <hr/>
     <footer class="footer">
         <p>
@@ -594,71 +318,55 @@
         var instance = new SubtitlesOctopus(options);
     });
 
-    // Modal functions - using event delegation
-    function openSubtitleModal() {
-        document.getElementById('subtitleModal').style.display = 'block';
-    }
-
-    function closeSubtitleModal() {
-        document.getElementById('subtitleModal').style.display = 'none';
-    }
-
-    function openEpisodeModal() {
-        document.getElementById('episodeModal').style.display = 'block';
-    }
-
-    function closeEpisodeModal() {
-        document.getElementById('episodeModal').style.display = 'none';
+    // Toggle sidebar panel
+    function toggleSidebarPanel(panelId, headerId) {
+        const panel = document.getElementById(panelId);
+        const header = document.getElementById(headerId);
+        const icon = header.querySelector('.expand-icon');
+        
+        // Check if this panel is already active
+        const isActive = panel.classList.contains('active');
+        
+        // Close all panels
+        document.querySelectorAll('.sidebar-panel-content').forEach(p => {
+            p.classList.remove('active');
+        });
+        document.querySelectorAll('.compact-card-header').forEach(h => {
+            h.classList.remove('active');
+            h.querySelector('.expand-icon').classList.remove('expanded');
+        });
+        
+        // If this panel wasn't active, open it
+        if (!isActive) {
+            panel.classList.add('active');
+            header.classList.add('active');
+            icon.classList.add('expanded');
+        }
     }
 
     // Attach event listeners after DOM is loaded
     $(document).ready(function() {
         // Subtitle selector
-        $('#subtitleSelector').on('click', openSubtitleModal);
-        $('#closeSubtitleBtn').on('click', closeSubtitleModal);
+        $('#subtitleSelector').on('click', function() {
+            toggleSidebarPanel('subtitlePanel', 'subtitleSelector');
+        });
         
         // Episode selector
-        $('#episodeSelector').on('click', openEpisodeModal);
-        $('#closeEpisodeBtn').on('click', closeEpisodeModal);
+        $('#episodeSelector').on('click', function() {
+            toggleSidebarPanel('episodePanel', 'episodeSelector');
+        });
         
-        // Danmaku settings - these functions are defined in video.js
+        // Danmaku settings
         $('#danmakuSettingsBtn').on('click', function() {
-            if (typeof openDanmakuSettingsModal === 'function') {
-                openDanmakuSettingsModal();
-            }
+            toggleSidebarPanel('danmakuSettingsPanel', 'danmakuSettingsBtn');
         });
-        $('#closeDanmakuSettingsBtn').on('click', function() {
-            if (typeof closeDanmakuSettingsModal === 'function') {
-                closeDanmakuSettingsModal();
-            }
-        });
-        $('#cancelDanmakuBtn').on('click', function() {
-            if (typeof closeDanmakuSettingsModal === 'function') {
-                closeDanmakuSettingsModal();
-            }
-        });
+        
         $('#resetDanmakuBtn').on('click', function() {
             if (typeof resetDanmakuSettings === 'function') {
                 resetDanmakuSettings();
             }
         });
     });
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const subtitleModal = document.getElementById('subtitleModal');
-        const episodeModal = document.getElementById('episodeModal');
-        const danmakuSettingsModal = document.getElementById('danmakuSettingsModal');
-        if (event.target === subtitleModal) {
-            closeSubtitleModal();
-        }
-        if (event.target === episodeModal) {
-            closeEpisodeModal();
-        }
-        if (event.target === danmakuSettingsModal && typeof closeDanmakuSettingsModal === 'function') {
-            closeDanmakuSettingsModal();
-        }
-    }
 </script>
 </body>
 </html>

@@ -15,7 +15,8 @@
         textShadowBlur: 0.5,
         textShadowColor: 'rgba(0, 0, 0, 0.5)',
         bold: false,
-        displayArea: 100 // 显示区域百分比，默认100%全屏
+        displayArea: 100, // 显示区域百分比，默认100%全屏
+        lineHeight: 0 // 行间距，默认0（无额外间距）
     };
     
     // 从localStorage加载设置
@@ -53,6 +54,7 @@
         style.id = 'dynamic-danmaku-style';
         
         const fontWeight = settings.bold ? 'bold' : 'normal';
+        const lineHeight = settings.lineHeight || 0;
         
         style.textContent = `
             .dplayer-danmaku {
@@ -67,6 +69,8 @@
                 -webkit-text-stroke: ${settings.textStrokeWidth}px ${settings.textStrokeColor} !important;
                 text-stroke: ${settings.textStrokeWidth}px ${settings.textStrokeColor} !important;
                 text-shadow: ${settings.textShadowX}px ${settings.textShadowY}px ${settings.textShadowBlur}px ${settings.textShadowColor} !important;
+                margin-bottom: ${lineHeight}px !important;
+                line-height: ${settings.fontSize + lineHeight}px !important;
             }
             
             .dplayer-danmaku .dplayer-danmaku-right.dplayer-danmaku-move {
@@ -119,6 +123,8 @@
             document.getElementById('danmakuBold').checked = settings.bold;
             document.getElementById('danmakuDisplayArea').value = settings.displayArea;
             document.getElementById('danmakuDisplayAreaValue').textContent = settings.displayArea;
+            document.getElementById('danmakuLineHeight').value = settings.lineHeight;
+            document.getElementById('danmakuLineHeightValue').textContent = settings.lineHeight;
         }
     };
     
@@ -162,6 +168,8 @@
         document.getElementById('danmakuBold').checked = defaultDanmakuSettings.bold;
         document.getElementById('danmakuDisplayArea').value = defaultDanmakuSettings.displayArea;
         document.getElementById('danmakuDisplayAreaValue').textContent = defaultDanmakuSettings.displayArea;
+        document.getElementById('danmakuLineHeight').value = defaultDanmakuSettings.lineHeight;
+        document.getElementById('danmakuLineHeightValue').textContent = defaultDanmakuSettings.lineHeight;
         
         // 不关闭弹窗，让用户看到重置后的效果
     };
@@ -203,6 +211,10 @@
             case 'displayArea':
                 document.getElementById('danmakuDisplayAreaValue').textContent = value;
                 settings.displayArea = parseInt(value);
+                break;
+            case 'lineHeight':
+                document.getElementById('danmakuLineHeightValue').textContent = value;
+                settings.lineHeight = parseInt(value);
                 break;
             case 'fontFamily':
                 settings.fontFamily = value;
