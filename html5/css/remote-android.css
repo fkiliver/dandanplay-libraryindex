@@ -12,7 +12,7 @@ body {
 
 header {
     padding: 10px 0;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px;
 }
 
 header h1 {
@@ -29,14 +29,14 @@ header h1 {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
 }
 
 .connection-form {
     display: flex;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .connection-form input {
@@ -81,18 +81,18 @@ header h1 {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
 .player-status {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 12px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .status-playing {
@@ -111,32 +111,32 @@ header h1 {
 }
 
 .current-media {
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .media-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
     color: var(--text-color);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     word-break: break-word;
 }
 
 .media-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     word-break: break-word;
 }
 
 /* ===== 进度条 ===== */
 .progress-section {
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
 .time-display {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     margin-bottom: 6px;
 }
@@ -162,12 +162,12 @@ header h1 {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 15px;
+    padding: 12px;
     margin-bottom: 15px;
 }
 
 .control-section {
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 .control-section:last-child {
@@ -175,10 +175,10 @@ header h1 {
 }
 
 .control-section-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -241,7 +241,8 @@ header h1 {
 .volume-control {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .volume-slider {
@@ -259,14 +260,14 @@ header h1 {
 /* ===== 快速定位 ===== */
 .seek-controls {
     display: flex;
-    gap: 6px;
+    gap: 5px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .seek-controls .btn {
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    padding: 6px 8px;
+    font-size: 0.75rem;
     white-space: nowrap;
     flex: 0 0 auto;
 }
@@ -276,8 +277,8 @@ header h1 {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
 }
 
 .danmu-toggle-btn {
@@ -288,7 +289,7 @@ header h1 {
     background: none;
     border: none;
     color: inherit;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
     padding: 0;
     cursor: pointer;
@@ -303,7 +304,7 @@ header h1 {
 }
 
 .danmu-content {
-    margin-top: 15px;
+    margin-top: 12px;
     display: none;
 }
 
@@ -312,7 +313,7 @@ header h1 {
 }
 
 .danmu-setting-group {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .danmu-setting-group:last-child {
@@ -323,18 +324,19 @@ header h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .danmu-setting-label label {
     font-weight: 500;
     margin-bottom: 0;
+    font-size: 0.9rem;
 }
 
 .danmu-value-display {
     font-weight: 600;
     color: #1976d2;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .danmu-slider {
@@ -343,14 +345,15 @@ header h1 {
 
 .danmu-checkbox-group {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
 }
 
 .danmu-checkbox-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    font-size: 0.9rem;
 }
 
 .danmu-checkbox-item input[type="checkbox"] {
@@ -361,21 +364,23 @@ header h1 {
     margin-bottom: 0;
     cursor: pointer;
     user-select: none;
+    font-size: 0.9rem;
 }
 
 .danmu-select-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .danmu-select-group select {
     flex: 1;
+    font-size: 0.9rem;
 }
 
 /* ===== 底部 ===== */
 .footer {
-    margin-top: 20px;
-    font-size: 0.85rem;
+    margin-top: 15px;
+    font-size: 0.8rem;
 }
 
 /* ===== 加载状态 ===== */
@@ -401,6 +406,55 @@ header h1 {
     font-size: 2rem;
 }
 
+/* ===== 播放速度控制 ===== */
+.speed-controls {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.speed-controls .btn {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    min-width: 55px;
+}
+
+.speed-controls .btn.active {
+    background-color: #1976d2;
+    color: white;
+    border-color: #1976d2;
+}
+
+.speed-slider {
+    flex: 1;
+    min-width: 0;
+}
+
+.speed-value {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* ===== 亮度调整 ===== */
+.brightness-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brightness-slider {
+    flex: 1;
+    min-width: 0;
+}
+
+.brightness-value {
+    font-weight: 500;
+    color: var(--text-color);
+    min-width: 40px;
+    text-align: right;
+}
+
 /* ===== 按钮样式 ===== */
 .btn-connect {
     white-space: nowrap;
@@ -412,47 +466,153 @@ header h1 {
 
 /* ===== 响应式设计 ===== */
 @media (max-width: 576px) {
+    body {
+        padding: 1rem;
+    }
+
     .container {
-        padding: 0 10px;
+        padding: 1rem;
+    }
+
+    .remote-container {
+        padding: 0 2px;
+    }
+
+    header {
+        padding: 8px 0;
+        margin-bottom: 8px !important;
     }
 
     header h1 {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
+    }
+
+    .connection-panel,
+    .player-info,
+    .control-panel {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+    }
+
+    .player-status {
+        padding: 2px 8px;
+        font-size: 0.75rem;
+        margin-bottom: 6px;
+    }
+
+    .media-title {
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+    }
+
+    .media-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .time-display {
+        font-size: 0.75rem;
+        margin-bottom: 5px;
+    }
+
+    .progress-bar-container {
+        height: 5px;
     }
 
     .connection-form {
         flex-direction: column;
+        gap: 6px;
+        margin-bottom: 8px;
     }
 
     .connection-form input,
     .connection-form button {
         width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .form-control,
+    .form-range,
+    .form-select {
+        font-size: 0.9rem;
+    }
+
+    .connection-status {
+        padding: 6px 10px;
+        font-size: 0.8rem;
     }
 
     .control-btn {
-        width: 52px;
-        height: 52px;
-        font-size: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
     }
 
     .control-btn-large {
-        width: 64px;
-        height: 64px;
-        font-size: 26px;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
     }
 
     .control-btn-small {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         font-size: 16px;
     }
 
-    .seek-controls .btn {
+    .playback-controls {
+        gap: 10px;
+    }
+
+    .volume-control {
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    .volume-value {
+        font-size: 0.85rem;
+        min-width: 35px;
+    }
+
+    .speed-controls {
+        gap: 5px;
+    }
+
+    .speed-controls .btn {
+        padding: 4px 8px;
         font-size: 0.8rem;
-        padding: 6px 8px;
+        min-width: 50px;
+    }
+
+    .brightness-controls {
+        gap: 6px;
+    }
+
+    .brightness-value {
+        font-size: 0.85rem;
+        min-width: 35px;
+    }
+
+    .seek-controls {
+        gap: 4px;
+    }
+
+    .seek-controls .btn {
+        font-size: 0.75rem;
+        padding: 5px 6px;
+    }
+
+    .control-section-title {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+        gap: 5px;
+    }
+
+    .control-section {
+        margin-bottom: 10px;
     }
 
     .danmu-checkbox-group {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
 }

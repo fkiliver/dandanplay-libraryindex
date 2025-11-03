@@ -3,6 +3,8 @@ $(document).ready(function () {
     var isConnected = false;
     var isPlaying = false;
     var currentVolume = 50;
+    var currentSpeed = 1.0;
+    var currentBrightness = 50;
     var currentTime = 0;
     var duration = 0;
     var isSeeking = false;
@@ -68,9 +70,11 @@ $(document).ready(function () {
 
     // 启用控制按钮
     function enableControls() {
-        $('#playPauseBtn, #previousBtn, #nextBtn, #stopBtn').prop('disabled', false);
+        $('#playPauseBtn, #stopBtn').prop('disabled', false);
         $('#volumeSlider, #muteBtn').prop('disabled', false);
         $('.seek-controls button').prop('disabled', false);
+        $('.speed-controls button').prop('disabled', false);
+        $('#brightnessSlider, #brightnessUpBtn, #brightnessDownBtn').prop('disabled', false);
         $('#danmuSize, #danmuSpeed, #danmuAlpha, #danmuStoke').prop('disabled', false);
         $('#showMobileDanmu, #showBottomDanmu, #showTopDanmu').prop('disabled', false);
         $('#danmuMaxCount, #danmuMaxLine, #cloudDanmuBlock, #danmuLanguage').prop('disabled', false);
@@ -78,9 +82,11 @@ $(document).ready(function () {
 
     // 禁用控制按钮
     function disableControls() {
-        $('#playPauseBtn, #previousBtn, #nextBtn, #stopBtn').prop('disabled', true);
+        $('#playPauseBtn, #stopBtn').prop('disabled', true);
         $('#volumeSlider, #muteBtn').prop('disabled', true);
         $('.seek-controls button').prop('disabled', true);
+        $('.speed-controls button').prop('disabled', true);
+        $('#brightnessSlider, #brightnessUpBtn, #brightnessDownBtn').prop('disabled', true);
         $('#danmuSize, #danmuSpeed, #danmuAlpha, #danmuStoke').prop('disabled', true);
         $('#showMobileDanmu, #showBottomDanmu, #showTopDanmu').prop('disabled', true);
         $('#danmuMaxCount, #danmuMaxLine, #cloudDanmuBlock, #danmuLanguage').prop('disabled', true);
@@ -270,6 +276,18 @@ $(document).ready(function () {
                         currentVolume = 50;
                     }
                     
+                    if (typeof status.speed !== 'undefined') {
+                        currentSpeed = status.speed;
+                    } else {
+                        currentSpeed = 1.0;
+                    }
+                    
+                    if (typeof status.brightnessPercent !== 'undefined') {
+                        currentBrightness = status.brightnessPercent;
+                    } else {
+                        currentBrightness = 50;
+                    }
+                    
                     lastUpdateTime = Date.now();
                     updateProgress();
                     updatePlayStatus(status.playing || false);
@@ -277,6 +295,12 @@ $(document).ready(function () {
                     $('#volumeSlider').val(currentVolume);
                     $('#volumeValue').text(currentVolume + '%');
                     updateVolumeIcon();
+                    
+                    $('#speedValue').text(currentSpeed.toFixed(2) + 'x');
+                    updateSpeedButtons();
+                    
+                    $('#brightnessSlider').val(currentBrightness);
+                    $('#brightnessValue').text(currentBrightness + '%');
                 } else if (!responseData.success && responseData.errorCode && responseData.errorMessage) {
                     // 连接成功但出现业务错误（如播放器未运行），显示错误信息但不断开连接
                     console.warn('[fetchCurrentStatus] 业务错误，代码:', responseData.errorCode, '消息:', responseData.errorMessage);
@@ -403,6 +427,13 @@ $(document).ready(function () {
         } else {
             icon.removeClass().addClass('fas fa-volume-up');
         }
+    }
+
+    // 更新播放速度按钮状态
+    function updateSpeedButtons() {
+        $('.speed-controls button').removeClass('active');
+        var speedValue = parseFloat(currentSpeed).toFixed(2);
+        $('.speed-controls button[data-speed="' + speedValue + '"]').addClass('active');
     }
 
     // 应用单个弹幕设置参数
@@ -552,17 +583,6 @@ $(document).ready(function () {
         }
     });
 
-    // 上一集/下一集
-    $('#previousBtn').click(function () {
-        // 安卓端API文档中没有明确的上一集/下一集命令
-        // 这里保留接口，实际应该根据后端支持情况进行调整
-        sendControlCommand('previous');
-    });
-
-    $('#nextBtn').click(function () {
-        sendControlCommand('next');
-    });
-
     // 停止
     $('#stopBtn').click(function () {
         sendControlCommand('exit');
@@ -572,6 +592,42 @@ $(document).ready(function () {
     $('.seek-controls button').click(function () {
         var offset = parseInt($(this).data('seek'));
         seekTo(offset);
+    });
+
+    // 播放速度预设按钮
+    $('.speed-controls button').click(function () {
+        var speed = parseFloat($(this).data('speed'));
+        if (speed > 0 && isConnected) {
+            sendControlCommand('speed', { speed: speed });
+        }
+    });
+
+    // 亮度滑块
+    var brightnessTimeout = null;
+    $('#brightnessSlider').on('input', function () {
+        var brightness = parseInt($(this).val());
+        currentBrightness = brightness;
+        $('#brightnessValue').text(brightness + '%');
+        
+        // 防抖：延迟发送API请求
+        clearTimeout(brightnessTimeout);
+        brightnessTimeout = setTimeout(function () {
+            sendControlCommand('brightness', { percent: brightness });
+        }, 300);
+    });
+
+    // 亮度增加按钮
+    $('#brightnessUpBtn').click(function () {
+        if (isConnected) {
+            sendControlCommand('brightnessUp', { delta: 5 });
+        }
+    });
+
+    // 亮度降低按钮
+    $('#brightnessDownBtn').click(function () {
+        if (isConnected) {
+            sendControlCommand('brightnessDown', { delta: 5 });
+        }
     });
 
     // 进度条点击
