@@ -1,0 +1,458 @@
+/* Remote Android Controller Styles */
+
+body {
+    padding-bottom: 20px;
+}
+
+.remote-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+header {
+    padding: 10px 0;
+    margin-bottom: 10px !important;
+}
+
+header h1 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.page-title {
+    display: none;
+}
+
+/* ===== 连接设置面板 ===== */
+.connection-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.connection-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.connection-form input {
+    flex: 1;
+    min-width: 0;
+}
+
+.connection-form input:first-child {
+    flex: 2;
+}
+
+.connection-status {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-disconnected {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-connecting {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.status-connected {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.connection-status i {
+    font-size: 1rem;
+}
+
+/* ===== 播放器信息 ===== */
+.player-info {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.player-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.status-playing {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-paused {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-stopped {
+    background: #f5f5f5;
+    color: #616161;
+}
+
+.current-media {
+    margin-top: 10px;
+}
+
+.media-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.media-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    word-break: break-word;
+}
+
+/* ===== 进度条 ===== */
+.progress-section {
+    margin-top: 12px;
+}
+
+.time-display {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.progress-bar-container {
+    background: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    touch-action: none;
+}
+
+.progress-bar-fill {
+    background: #1976d2;
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* ===== 播放控制面板 ===== */
+.control-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.control-section {
+    margin-bottom: 20px;
+}
+
+.control-section:last-child {
+    margin-bottom: 0;
+}
+
+.control-section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.playback-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+}
+
+.control-btn:active {
+    transform: scale(0.92);
+}
+
+.control-btn-large {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+}
+
+.control-btn-small {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+}
+
+.btn-primary-control {
+    background: #1976d2;
+    color: white;
+}
+
+.btn-secondary-control {
+    background: #757575;
+    color: white;
+}
+
+.btn-danger-control {
+    background: #d32f2f;
+    color: white;
+}
+
+/* ===== 音量控制 ===== */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.volume-slider {
+    flex: 1;
+}
+
+.volume-value {
+    min-width: 45px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* ===== 快速定位 ===== */
+.seek-controls {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.seek-controls .btn {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+/* ===== 弹幕设置面板 ===== */
+.danmu-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.danmu-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0;
+    cursor: pointer;
+}
+
+.danmu-toggle-btn i {
+    transition: transform 0.3s ease;
+}
+
+.danmu-toggle-btn.collapsed i {
+    transform: rotate(-90deg);
+}
+
+.danmu-content {
+    margin-top: 15px;
+    display: none;
+}
+
+.danmu-content.show {
+    display: block;
+}
+
+.danmu-setting-group {
+    margin-bottom: 15px;
+}
+
+.danmu-setting-group:last-child {
+    margin-bottom: 0;
+}
+
+.danmu-setting-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.danmu-setting-label label {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.danmu-value-display {
+    font-weight: 600;
+    color: #1976d2;
+    font-size: 0.9rem;
+}
+
+.danmu-slider {
+    width: 100%;
+}
+
+.danmu-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.danmu-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.danmu-checkbox-item input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.danmu-checkbox-item label {
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.danmu-select-group {
+    display: flex;
+    gap: 10px;
+}
+
+.danmu-select-group select {
+    flex: 1;
+}
+
+/* ===== 底部 ===== */
+.footer {
+    margin-top: 20px;
+    font-size: 0.85rem;
+}
+
+/* ===== 加载状态 ===== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-overlay.show {
+    display: flex;
+}
+
+.loading-spinner {
+    color: white;
+    font-size: 2rem;
+}
+
+/* ===== 按钮样式 ===== */
+.btn-connect {
+    white-space: nowrap;
+}
+
+.btn-disconnect {
+    white-space: nowrap;
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 576px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    .connection-form {
+        flex-direction: column;
+    }
+
+    .connection-form input,
+    .connection-form button {
+        width: 100%;
+    }
+
+    .control-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 20px;
+    }
+
+    .control-btn-large {
+        width: 64px;
+        height: 64px;
+        font-size: 26px;
+    }
+
+    .control-btn-small {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .seek-controls .btn {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    .danmu-checkbox-group {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}

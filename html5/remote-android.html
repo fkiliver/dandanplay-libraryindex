@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="css/icon.png" type="image/x-icon" />
+    <title>@Model.WebSiteName - 安卓概念版遥控器</title>
+    <link href="css/bootstrap-5.3.3.min.css" rel="stylesheet">
+    <link href="css/font-awesome-all-6.5.2.min.css" rel="stylesheet">
+    <link href="css/remote-android.css?v=@Model.StaticResourceVersion" rel="stylesheet">
+    @Partial['style.sshtml'];
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="fas fa-mobile-alt"></i> 安卓概念版遥控器</h1>
+            <a href="index.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+        </header>
+
+        <main class="remote-container">
+            <!-- 连接设置 -->
+            <section class="connection-panel">
+                <div class="connection-form">
+                    <input type="text" class="form-control" id="serverIp" placeholder="安卓版接收端IP地址" value="127.0.0.1">
+                    <input type="number" class="form-control" id="serverPort" placeholder="端口" value="12345" style="max-width: 100px;">
+                    <button class="btn btn-primary btn-connect" id="connectBtn">连接</button>
+                </div>
+                <div class="connection-status status-disconnected" id="connectionStatus">
+                    <i class="fas fa-circle"></i>
+                    <span id="statusText">未连接</span>
+                </div>
+            </section>
+
+            <!-- 当前播放信息 -->
+            <section class="player-info">
+                <span class="player-status status-stopped" id="playerStatus">
+                    <i class="fas fa-stop"></i> 未播放
+                </span>
+
+                <div class="current-media">
+                    <div class="media-title" id="mediaTitle">未连接到设备</div>
+                    <div class="media-subtitle" id="mediaSubtitle">&nbsp;</div>
+                </div>
+
+                <!-- 进度条 -->
+                <div class="progress-section">
+                    <div class="time-display">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                    <div class="progress-bar-container" id="progressBar">
+                        <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 播放控制 -->
+            <section class="control-panel">
+                <div class="control-section">
+                    <div class="control-section-title">
+                        <i class="fas fa-play-circle"></i>
+                        <span>播放控制</span>
+                    </div>
+                    <div class="playback-controls">
+                        <button class="control-btn control-btn-small btn-secondary-control" id="previousBtn" title="上一集" disabled>
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="control-btn control-btn-large btn-primary-control" id="playPauseBtn" title="播放/暂停" disabled>
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn control-btn-small btn-secondary-control" id="nextBtn" title="下一集" disabled>
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button class="control-btn control-btn-small btn-danger-control" id="stopBtn" title="停止" disabled>
+                            <i class="fas fa-stop"></i>
+                        </button>
+                    </div>
+                    <div class="volume-control" style="margin-top: 15px;">
+                        <button class="btn btn-outline-secondary" id="muteBtn" disabled>
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <input type="range" class="form-range volume-slider" id="volumeSlider" 
+                               min="0" max="100" value="50" disabled>
+                        <span class="volume-value" id="volumeValue">50%</span>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <div class="control-section-title">
+                        <i class="fas fa-forward"></i>
+                        <span>快速定位</span>
+                    </div>
+                    <div class="seek-controls">
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="-30" disabled>
+                            <i class="fas fa-backward"></i> -30s
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="-10" disabled>
+                            -10s
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="-5" disabled>
+                            -5s
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="5" disabled>
+                            +5s
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="10" disabled>
+                            +10s
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-seek="30" disabled>
+                            <i class="fas fa-forward"></i> +30s
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 弹幕设置 -->
+            <section class="danmu-panel">
+                <button class="danmu-toggle-btn" id="danmuToggleBtn">
+                    <span><i class="fas fa-comment-dots"></i> 弹幕设置</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+
+                <div class="danmu-content" id="danmuContent">
+                    <!-- 字体大小 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuSize">弹幕字体大小</label>
+                            <span class="danmu-value-display" id="danmuSizeValue">40</span>
+                        </div>
+                        <input type="range" class="form-range danmu-slider" id="danmuSize" min="0" max="100" value="40" disabled>
+                    </div>
+
+                    <!-- 弹幕速度 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuSpeed">弹幕速度</label>
+                            <span class="danmu-value-display" id="danmuSpeedValue">35</span>
+                        </div>
+                        <input type="range" class="form-range danmu-slider" id="danmuSpeed" min="0" max="100" value="35" disabled>
+                        <small class="text-muted">值越小速度越快</small>
+                    </div>
+
+                    <!-- 透明度 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuAlpha">弹幕透明度</label>
+                            <span class="danmu-value-display" id="danmuAlphaValue">100</span>
+                        </div>
+                        <input type="range" class="form-range danmu-slider" id="danmuAlpha" min="0" max="100" value="100" disabled>
+                    </div>
+
+                    <!-- 描边宽度 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuStoke">弹幕描边宽度</label>
+                            <span class="danmu-value-display" id="danmuStokeValue">20</span>
+                        </div>
+                        <input type="range" class="form-range danmu-slider" id="danmuStoke" min="0" max="100" value="20" disabled>
+                    </div>
+
+                    <!-- 弹幕显示选项 -->
+                    <div class="danmu-setting-group">
+                        <label style="font-weight: 500; display: block; margin-bottom: 10px;">弹幕显示类型</label>
+                        <div class="danmu-checkbox-group">
+                            <div class="danmu-checkbox-item">
+                                <input type="checkbox" id="showMobileDanmu" checked disabled>
+                                <label for="showMobileDanmu">滚动弹幕</label>
+                            </div>
+                            <div class="danmu-checkbox-item">
+                                <input type="checkbox" id="showBottomDanmu" checked disabled>
+                                <label for="showBottomDanmu">底部弹幕</label>
+                            </div>
+                            <div class="danmu-checkbox-item">
+                                <input type="checkbox" id="showTopDanmu" checked disabled>
+                                <label for="showTopDanmu">顶部弹幕</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最大同屏数量 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuMaxCount">弹幕最大同屏数量</label>
+                            <span class="danmu-value-display" id="danmuMaxCountValue">无限制</span>
+                        </div>
+                        <input type="number" class="form-control" id="danmuMaxCount" min="0" value="0" placeholder="0表示无限制" disabled>
+                    </div>
+
+                    <!-- 最大显示行数 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-setting-label">
+                            <label for="danmuMaxLine">弹幕最大显示行数</label>
+                            <span class="danmu-value-display" id="danmuMaxLineValue">无限制</span>
+                        </div>
+                        <input type="number" class="form-control" id="danmuMaxLine" min="-1" value="-1" placeholder="-1表示无限制" disabled>
+                    </div>
+
+                    <!-- 其他选项 -->
+                    <div class="danmu-setting-group">
+                        <div class="danmu-checkbox-group">
+                            <div class="danmu-checkbox-item">
+                                <input type="checkbox" id="cloudDanmuBlock" checked disabled>
+                                <label for="cloudDanmuBlock">云屏蔽</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 语言选择 -->
+                    <div class="danmu-setting-group">
+                        <label for="danmuLanguage" style="font-weight: 500; display: block; margin-bottom: 8px;">弹幕语言</label>
+                        <select class="form-select" id="danmuLanguage" disabled>
+                            <option value="0">原始</option>
+                            <option value="1">简体中文</option>
+                            <option value="2">繁体中文</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p id="footerInfo">
+                @IfNot.IsAnonymous
+                当前用户: @Model.UserName
+                <a href="/web1/logout" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </a> |
+                @EndIf
+                @Model.ServerInfo
+            </p>
+        </footer>
+    </div>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.bundle-5.3.3.min.js"></script>
+    <script src="js/remote-android.js?v=@Model.StaticResourceVersion"></script>
+
+</body>
+
+</html>
