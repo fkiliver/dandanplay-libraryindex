@@ -406,8 +406,8 @@
             var saved = localStorage.getItem('video_progress_' + videoId);
             if (saved) {
                 var progress = JSON.parse(saved);
-                // 如果保存的时间超过30天，清除记录
-                if (Date.now() - progress.timestamp > 30 * 24 * 60 * 60 * 1000) {
+                // 如果保存的时间超365天，清除记录
+                if (Date.now() - progress.timestamp > 365 * 24 * 60 * 60 * 1000) {
                     localStorage.removeItem('video_progress_' + videoId);
                     return null;
                 }
